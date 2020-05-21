@@ -3,12 +3,12 @@ import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
 interface Request {
-  provider: string;
+  provider_id: string;
   date: Date;
 }
 
 class CreteAppointmentService {
-  async execute({ provider, date }: Request): Promise<Appointment> {
+  async execute({ provider_id, date }: Request): Promise<Appointment> {
     const appointmentRepository = getCustomRepository(AppointmentsRepository);
 
     const findAppointment = await appointmentRepository.findByDate(date);
@@ -17,7 +17,7 @@ class CreteAppointmentService {
       throw new Error('This appointment is already booked');
     }
 
-    const appointment = appointmentRepository.create({ provider, date });
+    const appointment = appointmentRepository.create({ provider_id, date });
 
     await appointmentRepository.save(appointment);
 

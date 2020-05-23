@@ -1,5 +1,6 @@
 import CreateAppointment from '@modules/appointments/services/CreateAppointmentService';
 import FakeAppointmentRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
+import AppError from '@shared/errors/AppError';
 
 describe('CreateAppointment', () => {
   it('should create an appointment', async () => {
@@ -34,6 +35,6 @@ describe('CreateAppointment', () => {
         provider_id: 'newProviderId',
         date: appointmentDate,
       }),
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

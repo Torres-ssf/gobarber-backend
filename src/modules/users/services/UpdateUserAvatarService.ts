@@ -1,11 +1,9 @@
-import path from 'path';
-import fs from 'fs';
 import AppError from '@shared/errors/AppError';
-import uploadConfig from '@config/upload';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
 import IUserRepository from '@modules/users/repositories/IUsersRepository';
+import IStorageProvider from '@shared/providers/StorageProvider/models/IStorageProvider';
 
 interface IRequest {
   user_id: string;
@@ -15,8 +13,14 @@ interface IRequest {
 class UpdateUserAvatarService {
   private userRepository: IUserRepository;
 
-  constructor(userRepository: IUserRepository) {
+  private storageProvider: IStorageProvider;
+
+  constructor(
+    userRepository: IUserRepository,
+    storageProvider: IStorageProvider,
+  ) {
     this.userRepository = userRepository;
+    this.storageProvider = storageProvider;
   }
 
   async execute({ user_id, avatarFilename }: IRequest): Promise<User> {
@@ -27,15 +31,10 @@ class UpdateUserAvatarService {
     }
 
     if (user.avatar) {
-      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
-      const userAvatarFilePathExists = await fs.promises.stat(
-        userAvatarFilePath,
-      );
-
-      if (userAvatarFilePathExists) {
-        await fs.promises.unlink(userAvatarFilePath);
-      }
+      await this.storageProvider.deleteFile(user.avatar);
     }
+
+    await this.storageProvider.saveFile(avatarFilename);
 
     user.avatar = avatarFilename;
 

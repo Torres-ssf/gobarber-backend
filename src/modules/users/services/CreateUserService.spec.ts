@@ -1,12 +1,18 @@
 import CreateUserService from '@modules/users/services/CreateUserService';
-import FakeAppointmentRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import AppError from '@shared/errors/AppError';
 
 describe('CreateUser', () => {
   it('should create a user', async () => {
-    const fakeUserRepository = new FakeAppointmentRepository();
+    const fakeUserRepository = new FakeUsersRepository();
 
-    const createUserService = new CreateUserService(fakeUserRepository);
+    const fakeHashProvider = new FakeHashProvider();
+
+    const createUserService = new CreateUserService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
 
     const user = await createUserService.execute({
       name: 'John',
@@ -19,10 +25,15 @@ describe('CreateUser', () => {
     expect(user.name).toBe('John');
   });
 
-  it('should not be to create a new user  with an email already registered', async () => {
-    const fakeUserRepository = new FakeAppointmentRepository();
+  it('should not be able to create a new user with an email already registered', async () => {
+    const fakeUserRepository = new FakeUsersRepository();
 
-    const createUserService = new CreateUserService(fakeUserRepository);
+    const fakeHashProvider = new FakeHashProvider();
+
+    const createUserService = new CreateUserService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
 
     await createUserService.execute({
       name: 'John',

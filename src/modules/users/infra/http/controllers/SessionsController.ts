@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
+import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 
 export default class SessionsController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -9,7 +10,12 @@ export default class SessionsController {
 
     const userRepository = new UserRepository();
 
-    const authenticateService = new AuthenticateUserService(userRepository);
+    const bcryptHashProvider = new BCryptHashProvider();
+
+    const authenticateService = new AuthenticateUserService(
+      userRepository,
+      bcryptHashProvider,
+    );
 
     const { user, token } = await authenticateService.execute({
       email,

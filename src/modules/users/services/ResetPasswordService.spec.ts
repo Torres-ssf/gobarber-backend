@@ -10,7 +10,10 @@ describe('ResetPasswordService', () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeUserTokensRepository = new FakeUserTokensRepository();
 
-    resetPasswordService = new ResetPasswordService(fakeUserTokensRepository);
+    resetPasswordService = new ResetPasswordService(
+      fakeUserTokensRepository,
+      fakeUsersRepository,
+    );
   });
 
   it('should be able to reset the password', async () => {
@@ -20,7 +23,7 @@ describe('ResetPasswordService', () => {
       password: '123456',
     });
 
-    const { token } = await fakeUserTokensRepository.generate(user.email);
+    const { token } = await fakeUserTokensRepository.generate(user.id);
 
     await resetPasswordService.execute({
       password: '123123',

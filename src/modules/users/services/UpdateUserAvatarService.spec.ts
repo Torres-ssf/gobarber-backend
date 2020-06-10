@@ -40,7 +40,7 @@ describe('CreateUser', () => {
       fakeStorageProvider,
     );
 
-    expect(
+    await expect(
       updateUserAvatarService.execute({
         user_id: 'not-logged-user',
         avatarFilename: 'avatar.png',

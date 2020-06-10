@@ -1,6 +1,7 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeMailProvider from '@shared/providers/MailProvider/fakes/FakeMailProvider';
 
+import AppError from '@shared/errors/AppError';
 import SendForgotPasswordEmailService from './SendForgotPasswordEmailService';
 
 describe('SendForgotPasswordEmailService', () => {
@@ -24,5 +25,21 @@ describe('SendForgotPasswordEmailService', () => {
     await sendForgotPasswordEmail.execute({ email: user.email });
 
     expect(sendMail).toHaveBeenCalled();
+  });
+
+  it('should not be able to recover a non-existent user password', async () => {
+    const fakeUsersRepository = new FakeUsersRepository();
+    const fakeEmailProvider = new FakeMailProvider();
+
+    const sendForgotPasswordEmail = new SendForgotPasswordEmailService(
+      fakeUsersRepository,
+      fakeEmailProvider,
+    );
+
+    await expect(
+      sendForgotPasswordEmail.execute({
+        email: 'nonExistentMail@email.com',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

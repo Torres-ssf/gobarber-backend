@@ -1,5 +1,6 @@
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
 import { addHours, isAfter } from 'date-fns';
 import IUsersTokenRepository from '../repositories/IUserTokensRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
@@ -9,6 +10,7 @@ interface IRequest {
   password: string;
 }
 
+@injectable()
 class ResetPasswordService {
   private usersRepository: IUsersRepository;
 
@@ -17,8 +19,11 @@ class ResetPasswordService {
   private hashProvider: IHashProvider;
 
   constructor(
+    @inject('UserTokensRepository')
     tokensRepository: IUsersTokenRepository,
+    @inject('UsersRepository')
     usersRepository: IUsersRepository,
+    @inject('HashProvider')
     hashProvider: IHashProvider,
   ) {
     this.tokenRepository = tokensRepository;

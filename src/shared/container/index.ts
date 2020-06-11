@@ -12,6 +12,9 @@ import HashProvider from '@modules/users/providers/HashProvider/implementations/
 import IStorageProvider from '@shared/providers/StorageProvider/models/IStorageProvider';
 import StorageProvider from '@shared/providers/StorageProvider/implementations/DiskStorageProvider';
 
+import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
+import IUsersTokenRepository from '@modules/users/repositories/IUserTokensRepository';
+
 container.registerSingleton<IUserRepository>(
   'UsersRepository',
   UsersRepository,
@@ -27,4 +30,9 @@ container.registerSingleton<IHashProvider>('HashProvider', HashProvider);
 container.registerSingleton<IStorageProvider>(
   'StorageProvider',
   StorageProvider,
+);
+
+container.registerSingleton<IUsersTokenRepository>(
+  'UserTokensRepository',
+  UserTokensRepository,
 );

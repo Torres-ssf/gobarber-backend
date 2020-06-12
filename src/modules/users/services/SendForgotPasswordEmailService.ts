@@ -4,10 +4,6 @@ import IMailRepository from '@shared/providers/MailProvider/models/IMailProvider
 import AppError from '@shared/errors/AppError';
 import IUsersTokenRepository from '../repositories/IUserTokensRepository';
 
-interface IRequest {
-  email: string;
-}
-
 @injectable()
 class SendForgotPasswordEmailService {
   private usersRepository: IUsersRepository;
@@ -19,7 +15,7 @@ class SendForgotPasswordEmailService {
   constructor(
     @inject('UsersRepository')
     usersRepository: IUsersRepository,
-    @inject('MailRepository')
+    @inject('MailProvider')
     mailRepository: IMailRepository,
     @inject('UserTokensRepository')
     tokensRepository: IUsersTokenRepository,
@@ -29,16 +25,19 @@ class SendForgotPasswordEmailService {
     this.tokenRepository = tokensRepository;
   }
 
-  public async execute({ email }: IRequest): Promise<void> {
+  public async execute(email: string): Promise<void> {
     const userExists = await this.usersRepository.findByEmail(email);
 
     if (!userExists) {
       throw new AppError('User does not exists');
     }
 
-    await this.tokenRepository.generate(userExists.id);
+    const { token } = await this.tokenRepository.generate(userExists.id);
 
-    this.mailRepository.sendMail(email, 'change password request received');
+    await this.mailRepository.sendMail(
+      email,
+      `change password request received: ${token}`,
+    );
   }
 }
 

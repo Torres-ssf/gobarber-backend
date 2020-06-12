@@ -15,6 +15,9 @@ import StorageProvider from '@shared/providers/StorageProvider/implementations/D
 import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
 import IUsersTokenRepository from '@modules/users/repositories/IUserTokensRepository';
 
+import IMailProvider from '@shared/providers/MailProvider/models/IMailProvider';
+import EtherealMailProvider from '@shared/providers/MailProvider/implementations/EtherealMailProvider';
+
 container.registerSingleton<IUserRepository>(
   'UsersRepository',
   UsersRepository,
@@ -35,4 +38,9 @@ container.registerSingleton<IStorageProvider>(
 container.registerSingleton<IUsersTokenRepository>(
   'UserTokensRepository',
   UserTokensRepository,
+);
+
+container.registerInstance<IMailProvider>(
+  'MailProvider',
+  new EtherealMailProvider(),
 );

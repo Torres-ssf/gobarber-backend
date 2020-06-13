@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import path from 'path';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IMailRepository from '@shared/providers/MailProvider/models/IMailProvider';
 import AppError from '@shared/errors/AppError';
@@ -26,18 +27,35 @@ class SendForgotPasswordEmailService {
   }
 
   public async execute(email: string): Promise<void> {
-    const userExists = await this.usersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByEmail(email);
 
-    if (!userExists) {
+    if (!user) {
       throw new AppError('User does not exists');
     }
 
-    const { token } = await this.tokenRepository.generate(userExists.id);
+    const { token } = await this.tokenRepository.generate(user.id);
 
-    await this.mailRepository.sendMail(
-      email,
-      `change password request received: ${token}`,
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'forgot_password.hbs',
     );
+
+    await this.mailRepository.sendMail({
+      to: {
+        name: user.name,
+        email: user.email,
+      },
+      subject: '[Gobarber] Password Reset',
+      templateData: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: user.name,
+          link: `http://localhost:3000/reset_password?token=${token}`,
+        },
+      },
+    });
   }
 }
 

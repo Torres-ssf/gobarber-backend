@@ -18,6 +18,9 @@ import IUsersTokenRepository from '@modules/users/repositories/IUserTokensReposi
 import IMailProvider from '@shared/providers/MailProvider/models/IMailProvider';
 import EtherealMailProvider from '@shared/providers/MailProvider/implementations/EtherealMailProvider';
 
+import IMailTemplateProvider from '@shared/providers/MailTemplateProvider/models/IMailTemplateProvider';
+import HandleBarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandleBarsMailTemplateProvider';
+
 container.registerSingleton<IUserRepository>(
   'UsersRepository',
   UsersRepository,
@@ -40,7 +43,12 @@ container.registerSingleton<IUsersTokenRepository>(
   UserTokensRepository,
 );
 
+container.registerSingleton<IMailTemplateProvider>(
+  'MailTemplateProvider',
+  HandleBarsMailTemplateProvider,
+);
+
 container.registerInstance<IMailProvider>(
   'MailProvider',
-  new EtherealMailProvider(),
+  container.resolve(EtherealMailProvider),
 );

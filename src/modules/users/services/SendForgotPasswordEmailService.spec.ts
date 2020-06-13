@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeMailProvider from '@shared/providers/MailProvider/fakes/FakeMailProvider';
 
@@ -32,16 +33,14 @@ describe('SendForgotPasswordEmailService', () => {
       password: '123456',
     });
 
-    await sendForgotPasswordEmail.execute({ email: user.email });
+    await sendForgotPasswordEmail.execute(user.email);
 
     expect(sendMail).toHaveBeenCalled();
   });
 
   it('should not be able to recover a non-existent user password', async () => {
     await expect(
-      sendForgotPasswordEmail.execute({
-        email: 'nonExistentMail@email.com',
-      }),
+      sendForgotPasswordEmail.execute('nonExistentMail@email.com'),
     ).rejects.toBeInstanceOf(AppError);
   });
 
@@ -54,7 +53,7 @@ describe('SendForgotPasswordEmailService', () => {
       password: '123456',
     });
 
-    await sendForgotPasswordEmail.execute({ email: user.email });
+    await sendForgotPasswordEmail.execute(user.email);
 
     expect(generate).toHaveBeenCalledWith(user.id);
   });

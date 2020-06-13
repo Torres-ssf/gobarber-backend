@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 import { startOfHour, parseISO } from 'date-fns';
 
 import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository';
@@ -10,10 +11,8 @@ export default class AppointmentsControllers {
 
     const parsedDate = startOfHour(parseISO(date));
 
-    const appointmentsRepository = new AppointmentsRepository();
-
-    const createAppointmentService = new CreateAppointmentService(
-      appointmentsRepository,
+    const createAppointmentService = container.resolve(
+      CreateAppointmentService,
     );
 
     const appointment = await createAppointmentService.execute({

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import CreateUserService from '@modules/users/services/CreateUserService';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';

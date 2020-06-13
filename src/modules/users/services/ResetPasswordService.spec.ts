@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import ResetPasswordService from '@modules/users/services/ResetPasswordService';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';

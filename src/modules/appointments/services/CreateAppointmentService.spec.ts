@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import CreateAppointment from '@modules/appointments/services/CreateAppointmentService';
 import FakeAppointmentRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import AppError from '@shared/errors/AppError';

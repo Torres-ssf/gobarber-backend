@@ -26,18 +26,28 @@ class SendForgotPasswordEmailService {
   }
 
   public async execute(email: string): Promise<void> {
-    const userExists = await this.usersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByEmail(email);
 
-    if (!userExists) {
+    if (!user) {
       throw new AppError('User does not exists');
     }
 
-    const { token } = await this.tokenRepository.generate(userExists.id);
+    const { token } = await this.tokenRepository.generate(user.id);
 
-    await this.mailRepository.sendMail(
-      email,
-      `change password request received: ${token}`,
-    );
+    await this.mailRepository.sendMail({
+      to: {
+        name: user.name,
+        email: user.email,
+      },
+      subject: '[Gobarber] Password Reset',
+      templateData: {
+        template: 'Hi, {{name}}: {{token}}',
+        variables: {
+          name: user.name,
+          token,
+        },
+      },
+    });
   }
 }
 

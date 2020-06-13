@@ -52,6 +52,7 @@ describe('ResetPasswordService', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
   it('should not be able to reset the password with a non-existent user', async () => {
     const { token } = await fakeUserTokensRepository.generate(
       'non-existent-user-id',

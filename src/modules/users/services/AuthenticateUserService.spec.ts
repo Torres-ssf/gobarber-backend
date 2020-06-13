@@ -6,17 +6,23 @@ import CreateUserService from '@modules/users/services/CreateUserService';
 import AppError from '@shared/errors/AppError';
 
 describe('AuthenticateUser', () => {
-  it('should be able to authenticate created user', async () => {
-    const fakeUserRepository = new FakeUsersRepository();
+  let fakeUserRepository: FakeUsersRepository;
+  let fakeHashProvider: FakeHashProvider;
+  let createUserService: CreateUserService;
+  let authenticateUserService: AuthenticateUserService;
 
-    const fakeHashProvider = new FakeHashProvider();
+  beforeEach(() => {
+    fakeUserRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
 
-    const createUserService = new CreateUserService(
+    authenticateUserService = new AuthenticateUserService(
       fakeUserRepository,
       fakeHashProvider,
     );
+  });
 
-    const authenticateUserService = new AuthenticateUserService(
+  it('should be able to authenticate created user', async () => {
+    createUserService = new CreateUserService(
       fakeUserRepository,
       fakeHashProvider,
     );
@@ -35,15 +41,6 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate an uncreated user', async () => {
-    const fakeUserRepository = new FakeUsersRepository();
-
-    const fakeHashProvider = new FakeHashProvider();
-
-    const authenticateUserService = new AuthenticateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
     await expect(
       authenticateUserService.execute({
         email: 'john@mail.com',
@@ -53,16 +50,7 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    const fakeUserRepository = new FakeUsersRepository();
-
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
-    const authenticateUserService = new AuthenticateUserService(
+    createUserService = new CreateUserService(
       fakeUserRepository,
       fakeHashProvider,
     );

@@ -8,6 +8,7 @@ const profileRoutes = Router();
 
 const profileController = new ProfileController();
 
+profileRoutes.get('/', ensuredAuthenticated, profileController.show);
 profileRoutes.put('/', ensuredAuthenticated, profileController.update);
 
 export default profileRoutes;

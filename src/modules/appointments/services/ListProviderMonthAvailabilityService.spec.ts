@@ -20,14 +20,14 @@ describe('ListProviderMonthAvailabilityService', () => {
       serviceTime.map(hour => {
         return fakeAppointmentsRepository.create({
           provider_id: 'provider01',
-          date: new Date(2020, 4, 12, hour, 0),
+          date: new Date(2020, 4, 12, hour),
         });
       }),
     );
 
     await fakeAppointmentsRepository.create({
       provider_id: 'provider01',
-      date: new Date(2020, 4, 14, 17, 0),
+      date: new Date(2020, 4, 14, 17),
     });
 
     const appointments = await listProviderMonthAvailabilityService.execute({

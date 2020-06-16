@@ -29,6 +29,7 @@ describe('ListProviderDayAvailabilityService', () => {
       serviceTime.map(hour => {
         return fakeAppointmentsRepository.create({
           provider_id: 'provider01',
+          user_id: 'user01',
           date: new Date(2020, 4, 12, hour),
         });
       }),
@@ -59,11 +60,13 @@ describe('ListProviderDayAvailabilityService', () => {
 
     await fakeAppointmentsRepository.create({
       provider_id: 'provider01',
+      user_id: 'user01',
       date: new Date(2020, 4, 12, 13),
     });
 
     await fakeAppointmentsRepository.create({
       provider_id: 'provider01',
+      user_id: 'user01',
       date: new Date(2020, 4, 12, 15),
     });
 

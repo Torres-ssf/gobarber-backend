@@ -23,6 +23,10 @@ describe('ListProviderDayAvailabilityService', () => {
   });
 
   it('should be able to list the day availability', async () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2020, 4, 12, 7).getTime();
+    });
+
     const serviceTime = Array.from({ length: 10 }, (_, index) => index + 8);
 
     await Promise.all(

@@ -21,6 +21,9 @@ import EtherealMailProvider from '@shared/providers/MailProvider/implementations
 import IMailTemplateProvider from '@shared/providers/MailTemplateProvider/models/IMailTemplateProvider';
 import HandleBarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandleBarsMailTemplateProvider';
 
+import INotificationRepository from '@modules/notifications/repositories/INotificationRepository';
+import NotificationRepository from '@modules/notifications/infra/typeorm/repositories/NotificationRepository';
+
 container.registerSingleton<IUserRepository>(
   'UsersRepository',
   UsersRepository,
@@ -41,6 +44,11 @@ container.registerSingleton<IStorageProvider>(
 container.registerSingleton<IUsersTokenRepository>(
   'UserTokensRepository',
   UserTokensRepository,
+);
+
+container.registerSingleton<INotificationRepository>(
+  'NotificationRepository',
+  NotificationRepository,
 );
 
 container.registerSingleton<IMailTemplateProvider>(

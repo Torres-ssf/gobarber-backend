@@ -1,4 +1,4 @@
-import { startOfHour, isBefore, getHours } from 'date-fns';
+import { startOfHour, isBefore, getHours, format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
@@ -6,6 +6,7 @@ import AppError from '@shared/errors/AppError';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+import INotificationRepository from '@modules/notifications/repositories/INotificationRepository';
 
 interface IRequest {
   provider_id: string;
@@ -17,11 +18,16 @@ interface IRequest {
 class CreteAppointmentService {
   private appointmentsRepository: IAppointmentsRepository;
 
+  private notificationRepository: INotificationRepository;
+
   constructor(
     @inject('AppointmentsRepository')
     appointmentsRepository: IAppointmentsRepository,
+    @inject('NotificationRepository')
+    notificationRepository: INotificationRepository,
   ) {
     this.appointmentsRepository = appointmentsRepository;
+    this.notificationRepository = notificationRepository;
   }
 
   async execute({
@@ -59,6 +65,13 @@ class CreteAppointmentService {
       provider_id,
       user_id,
       date: appointmentDate,
+    });
+
+    const formattedDate = format(appointmentDate, "dd/MM/yyyy 'at' HH:mm");
+
+    await this.notificationRepository.create({
+      recipient_id: provider_id,
+      content: `A new appointment was scheduled for ${formattedDate}`,
     });
 
     return appointment;

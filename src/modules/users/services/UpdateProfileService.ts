@@ -9,7 +9,7 @@ interface IResquest {
   name: string;
   email: string;
   old_password?: string;
-  new_password?: string;
+  password?: string;
 }
 
 @injectable()
@@ -32,7 +32,7 @@ class UpdateProfileService {
     user_id,
     name,
     email,
-    new_password,
+    password,
     old_password,
   }: IResquest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
@@ -50,11 +50,11 @@ class UpdateProfileService {
     user.name = name;
     user.email = email;
 
-    if (new_password && !old_password) {
+    if (password && !old_password) {
       throw new AppError('The old password is required to set a new password');
     }
 
-    if (new_password && old_password) {
+    if (password && old_password) {
       const passwordMatch = await this.hashProvider.compare(
         old_password,
         user.password,
@@ -64,7 +64,7 @@ class UpdateProfileService {
         throw new AppError('Current password does not match');
       }
 
-      user.password = await this.hashProvider.generateHash(new_password);
+      user.password = await this.hashProvider.generateHash(password);
     }
 
     await this.usersRepository.save(user);

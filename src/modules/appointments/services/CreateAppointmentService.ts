@@ -15,7 +15,7 @@ interface IRequest {
 }
 
 @injectable()
-class CreteAppointmentService {
+class CreateAppointmentService {
   private appointmentsRepository: IAppointmentsRepository;
 
   private notificationRepository: INotificationRepository;
@@ -55,6 +55,7 @@ class CreteAppointmentService {
 
     const findAppointment = await this.appointmentsRepository.findByDate(
       appointmentDate,
+      provider_id,
     );
 
     if (findAppointment) {
@@ -78,4 +79,4 @@ class CreteAppointmentService {
   }
 }
 
-export default CreteAppointmentService;
+export default CreateAppointmentService;

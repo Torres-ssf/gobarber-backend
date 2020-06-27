@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { startOfHour, parseISO } from 'date-fns';
 
-import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository';
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 
 export default class AppointmentsControllers {
@@ -23,13 +22,5 @@ export default class AppointmentsControllers {
     });
 
     return res.json({ appointment });
-  }
-
-  public async index(req: Request, res: Response): Promise<Response> {
-    const appointmentsRepository = new AppointmentsRepository();
-
-    const appointments = await appointmentsRepository.show();
-
-    return res.json(appointments);
   }
 }

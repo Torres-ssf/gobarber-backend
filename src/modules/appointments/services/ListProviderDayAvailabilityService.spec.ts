@@ -24,13 +24,16 @@ describe('ListProviderDayAvailabilityService', () => {
 
   it('should be able to list the day availability', async () => {
     jest.spyOn(Date, 'now').mockImplementation(() => {
-      return new Date(2020, 4, 12, 7).getTime();
+      return new Date(2020, 4, 10, 7).getTime();
     });
 
-    const serviceTime = Array.from({ length: 10 }, (_, index) => index + 8);
+    const scheduleEightAppointments = Array.from(
+      { length: 8 },
+      (_, index) => index + 8,
+    );
 
     await Promise.all(
-      serviceTime.map(hour => {
+      scheduleEightAppointments.map(hour => {
         return fakeAppointmentsRepository.create({
           provider_id: 'provider01',
           user_id: 'user01',
@@ -46,13 +49,14 @@ describe('ListProviderDayAvailabilityService', () => {
       year: 2020,
     });
 
+    console.log(appointments);
+
     expect(appointments).toEqual(
       expect.arrayContaining([
-        { hour: randomNumber({ min: 8, max: 17 }), available: false },
-        { hour: randomNumber({ min: 8, max: 17 }), available: false },
-        { hour: randomNumber({ min: 8, max: 17 }), available: false },
-        { hour: randomNumber({ min: 8, max: 17 }), available: false },
-        { hour: randomNumber({ min: 8, max: 17 }), available: false },
+        { hour: randomNumber({ min: 8, max: 15 }), available: false },
+        { hour: randomNumber({ min: 8, max: 15 }), available: false },
+        { hour: 16, available: true },
+        { hour: 17, available: true },
       ]),
     );
   });

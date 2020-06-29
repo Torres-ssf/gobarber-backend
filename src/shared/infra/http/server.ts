@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+import cors from 'cors';
 
 import express, { json, Request, Response, NextFunction } from 'express';
 import { errors } from 'celebrate';
@@ -14,6 +15,8 @@ import '@shared/container';
 const app = express();
 
 app.use(json());
+
+app.use(cors());
 
 app.use('/files', express.static(uploadConfig.uploadFolder));
 

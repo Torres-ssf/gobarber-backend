@@ -14,6 +14,6 @@ export default class ProvidersController {
       user_id,
     });
 
-    return res.json({ providers: classToClass(providers) });
+    return res.json(classToClass(providers));
   }
 }

@@ -49,8 +49,6 @@ describe('ListProviderDayAvailabilityService', () => {
       year: 2020,
     });
 
-    console.log(appointments);
-
     expect(appointments).toEqual(
       expect.arrayContaining([
         { hour: randomNumber({ min: 8, max: 15 }), available: false },

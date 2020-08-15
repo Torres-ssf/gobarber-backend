@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import FakeMailProvider from '@shared/providers/MailProvider/fakes/FakeMailProvider';
+import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 
 import AppError from '@shared/errors/AppError';
 import SendForgotPasswordEmailService from './SendForgotPasswordEmailService';

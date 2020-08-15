@@ -10,18 +10,18 @@ import IUserRepository from '@modules/users/repositories/IUsersRepository';
 import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
 import HashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 
-import IStorageProvider from '@shared/providers/StorageProvider/models/IStorageProvider';
-import StorageProvider from '@shared/providers/StorageProvider/implementations/DiskStorageProvider';
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
+import StorageProvider from '@shared/container/providers/StorageProvider/implementations/DiskStorageProvider';
 
 import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
 import IUsersTokenRepository from '@modules/users/repositories/IUserTokensRepository';
 
-import IMailProvider from '@shared/providers/MailProvider/models/IMailProvider';
-import SESMailProvider from '@shared/providers/MailProvider/implementations/SESMailProvider';
-import EtherealMailProvider from '@shared/providers/MailProvider/implementations/EtherealMailProvider';
+import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
+import SESMailProvider from '@shared/container/providers/MailProvider/implementations/SESMailProvider';
+import EtherealMailProvider from '@shared/container/providers/MailProvider/implementations/EtherealMailProvider';
 
-import IMailTemplateProvider from '@shared/providers/MailTemplateProvider/models/IMailTemplateProvider';
-import HandleBarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandleBarsMailTemplateProvider';
+import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
+import HandleBarsMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/implementations/HandleBarsMailTemplateProvider';
 
 import INotificationRepository from '@modules/notifications/repositories/INotificationRepository';
 import NotificationRepository from '@modules/notifications/infra/typeorm/repositories/NotificationRepository';

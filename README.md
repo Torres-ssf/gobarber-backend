@@ -1,8 +1,29 @@
-<!-- ![](https://img.shields.io/badge/Microverse-blueviolet) -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+    <img src="GoBarber.png" alt="Logo" width="80" height="80">
+
+  <h3 align="center">Gobarber Backend</h3>
+
+  <p align="center">
+    The server-side application for the GoBarber App.
+    <br />
+    <a href="#">View Demo(SOON)</a>
+    ·
+    <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Request Feature</a>
+  </p>
+</p>
 
 # Gobarber Backend
 
-> The server-side application for Gobarber.
+> an application for service providers, such as Barbers, to control customer schedules, received via the Mobile application.
 
 <!-- ![screenshot](./app_screenshot.png) -->
 

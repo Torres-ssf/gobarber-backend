@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import FakeUserRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import FakeStorageProvider from '@shared/providers/StorageProvider/fakes/FakeStorageProvider';
+import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import AppError from '@shared/errors/AppError';
 
 describe('CreateUser', () => {

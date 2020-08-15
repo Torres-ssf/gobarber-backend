@@ -5,21 +5,23 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<p align="center">
-    <img src="GoBarber.png" alt="Logo" width="80" height="80">
+<span align="center">
 
+  <span align="center"> 
+    <img src="GoBarber.png" alt="Logo" width="165.34" height="45.8">
+  </span>
   <h3 align="center">Gobarber Backend</h3>
 
-  <p align="center">
-    The server-side application for the GoBarber App.
+  <span align="center">
+    <p>The server-side application for the GoBarber App.</p>
     <br />
-    <a href="#">View Demo(SOON)</a>
+    <a href="#">API Documentation (SOON)</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Report Bug</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Request Feature</a>
-  </p>
-</p>
+  </span>
+</span>
 
 # Gobarber Backend
 

@@ -3,7 +3,7 @@
     "name": "default",
     "type": "postgres",
     "host": "localhost",
-    "port": "5432",
+    "port": 5432,
     "username": "postgres usename",
     "password": "postgres password",
     "database": "database name",

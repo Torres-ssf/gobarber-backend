@@ -1,5 +1,4 @@
 import { container } from 'tsyringe';
-import mailCofig from '@config/mail';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import AppointmentsResitory from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository';
@@ -15,10 +14,6 @@ import StorageProvider from '@shared/container/providers/StorageProvider/impleme
 
 import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
 import IUsersTokenRepository from '@modules/users/repositories/IUserTokensRepository';
-
-import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import SESMailProvider from '@shared/container/providers/MailProvider/implementations/SESMailProvider';
-import EtherealMailProvider from '@shared/container/providers/MailProvider/implementations/EtherealMailProvider';
 
 import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 import HandleBarsMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/implementations/HandleBarsMailTemplateProvider';
@@ -56,11 +51,4 @@ container.registerSingleton<INotificationRepository>(
 container.registerSingleton<IMailTemplateProvider>(
   'MailTemplateProvider',
   HandleBarsMailTemplateProvider,
-);
-
-container.registerInstance<IMailProvider>(
-  'MailProvider',
-  mailCofig.driver === 'ethereal'
-    ? container.resolve(EtherealMailProvider)
-    : container.resolve(SESMailProvider),
 );

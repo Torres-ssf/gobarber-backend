@@ -37,6 +37,10 @@ Click [ here ](https://github.com/Torres-ssf/gobarber-backend/) to explore the A
 
 The project was built using the following languages stacks:
 
+```sh
+Back-End(server)
+```
+
 - Node
 - Typescript
 - [Express](https://www.npmjs.com/package/expresshttps://www.npmjs.com/package/express)
@@ -53,6 +57,12 @@ The project was built using the following languages stacks:
 - [class-transformer](https://www.npmjs.com/package/class-transformer)
 - [date-fns](https://www.npmjs.com/package/date-fns)
 - [aws-sdk](https://www.npmjs.com/package/aws-sdk)
+
+```sh
+Testing Frameworks
+```
+
+- [Jest](https://www.npmjs.com/package/jest)
 
 
 ## Getting Started

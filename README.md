@@ -5,23 +5,23 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<span align="center">
-
-  <span align="center"> 
-    <img src="GoBarber.png" alt="Logo" width="165.34" height="45.8">
+<p align="center">
+  <span style="background:#312E38;">
+    <img src="GoBarber.png" alt="Logo" width="165.34" height="45">
   </span>
+
   <h3 align="center">Gobarber Backend</h3>
 
-  <span align="center">
-    <p>The server-side application for the GoBarber App.</p>
+  <p align="center">
+   The server-side application for the GoBarber App.
     <br />
     <a href="#">API Documentation (SOON)</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Report Bug</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Request Feature</a>
-  </span>
-</span>
+  </p>
+</p>
 
 # Gobarber Backend
 
@@ -100,3 +100,14 @@ Give a ⭐️ if you like this project!
 ## 📝 License
 
 This project is [MIT](lic.url) licensed.
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/Torres-ssf/gobarber-backend.svg?style=flat-square
+[contributors-url]: https://github.com/Torres-ssf/gobarber-backend/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Torres-ssf/gobarber-backend.svg?style=flat-square
+[forks-url]: https://github.com/Torres-ssf/gobarber-backend/network/members
+[stars-shield]: https://img.shields.io/github/stars/Torres-ssf/gobarber-backend.svg?style=flat-square
+[stars-url]: https://github.com/Torres-ssf/gobarber-backend/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Torres-ssf/gobarber-backend.svg?style=flat-square
+[issues-url]: https://github.com/Torres-ssf/gobarber-backend/issues

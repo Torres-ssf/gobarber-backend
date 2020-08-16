@@ -127,6 +127,13 @@ yarn
 yarn typeorm migration:run
 ```
 
+6. This applications uses `jsonwebtokenNow` to grant an access token to logged users. 
+  - You will need to provide a MD5 hash from an encoded string from your choice. You can generate the hash [here](https://www.md5hashgenerator.com/). 
+  - With the hash in hands, we are ready to setup the environment variable. Rename the `.env.example` to `.env`.
+  - Assign your generated hash to the variable
+  ```
+  APP_SECRET=generatedMD5HashHere
+  ```
 
 ### Usage
 

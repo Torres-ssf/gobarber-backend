@@ -99,15 +99,18 @@ yarn
 ```
 
 4. Set up databases
-
-  a - Remove the ```example``` from the ormconfig.example.json file.
-  b - Assign values according with your configuration.
+  - Remove the ```example``` from the `ormconfig.example.json` file.
+  - Assign values according with the postgres configuration in your system.
   ```json
   "port": 5432,
-    "username": "postgres usename",
+    "username": "postgres username",
     "password": "postgres password",
     "database": "database name",
   ```
+  - Assign the port the was configured in your system (default is `5432`) for the `port` object.  
+  - Assign your postgres username to the `username` object.
+  - Assign your postgres password to the `password` object.
+  - Assign an existent postgres database name to the `database` object.
 
 
 

@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <span style="background:#312E38;width:165.34px;height:45px;">
+  <span style="background:#312E38;width:165.34px;height:45px;display:block;">
     <img src="GoBarber.png" alt="Logo" width="165.34" height="45">
   </span>
 

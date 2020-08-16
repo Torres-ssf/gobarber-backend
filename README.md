@@ -27,7 +27,7 @@
 
 ## About The Project
 
-Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application.
+Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp.
 
 ## API Documentation
 
@@ -155,7 +155,7 @@ yarn dev:server
 Script for development stage. If all the installation section was properly made, the app is ready to be used.
 
 ```
-  yarn typeorm
+yarn typeorm
 ```
 
 Script design to do typeorm task, like creating and revert migrations.
@@ -165,10 +165,6 @@ Script design to do typeorm task, like creating and revert migrations.
 ```
 yarn test
 ```
-
-### Deployment
-
-
 
 ## Authors
 
@@ -182,7 +178,7 @@ yarn test
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check the [issues page](issues/).
+Feel free to check the [issues page](https://github.com/Torres-ssf/gobarber-backend/issues).
 
 ## Show your support
 
@@ -190,9 +186,7 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
+- Built this project was only possible because of the skills I aquired during the [GoStack Bootcamp](https://rocketseat.com.br/).
 
 ## 📝 License
 

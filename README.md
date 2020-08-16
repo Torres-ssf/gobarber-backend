@@ -152,7 +152,10 @@ App Scripts:
 yarn dev:server
 ```
 
-Script for development stage. If all the installation section was properly made, the app is ready to be used.
+Script for development stage. If all the installation section was properly made, an output message will appear at the terminal.
+```
+Server started on port 3333!
+```
 
 ```
 yarn typeorm

@@ -33,19 +33,26 @@ Sever-side application for GoBarber, an app for service providers, such as Barbe
 
 Click [ here ](https://github.com/Torres-ssf/gobarber-backend/) to explore the API documentation(SOON).
 
-## Built With
+### Built With
+
+The project was built using the following languages stacks:
 
 - Node
 - Typescript
-- Express
-- TypeORM
-- PostgreSQL
-- MongoDB
-
-
-<!-- ## Live Demo
-
-[Live Demo Link](https://livedemo.com) -->
+- [Express](https://www.npmjs.com/package/expresshttps://www.npmjs.com/package/express)
+- [TypeORM](https://www.npmjs.com/package/typeorm)
+- [PostgreSQL](https://www.npmjs.com/package/pg)
+- [MongoDB](https://www.npmjs.com/package/mongodb)
+- [Nodemailer](https://www.npmjs.com/package/nodemailer)
+- [Bcryptjs](https://www.npmjs.com/package/bcryptjs)
+- [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [Multer](https://www.npmjs.com/package/multer)
+- [Handlebars.js](https://www.npmjs.com/package/handlebars)
+- [Celebrate](https://www.npmjs.com/package/celebrate)
+- [TSyringe](https://www.npmjs.com/package/tsyringe)
+- [class-transformer](https://www.npmjs.com/package/class-transformer)
+- [date-fns](https://www.npmjs.com/package/date-fns)
+- [aws-sdk](https://www.npmjs.com/package/aws-sdk)
 
 
 ## Getting Started

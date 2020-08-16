@@ -7,7 +7,7 @@
 <br />
 <p align="center">
 
-  <img src="logo.png" alt="Logo" width="165.34" height="45">
+  <img src="logo.png" alt="Logo" width="269" height="98">
 
   <h3 align="center">Gobarber Backend</h3>
 

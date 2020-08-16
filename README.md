@@ -65,11 +65,9 @@ Testing Frameworks
 - [Jest](https://www.npmjs.com/package/jest)
 
 
+<!-- GETTING STARTED -->
+
 ## Getting Started
-
-**This is an example of how you may give instructions on setting up your project locally.**
-**Modify this file to match your project, remove sections that don't apply. For example: delete the testing section if the currect project doesn't require testing.**
-
 
 To get a local copy up and running follow these simple example steps.
 
@@ -79,6 +77,39 @@ To get a local copy up and running follow these simple example steps.
 - NPM
 - PostgreSQL
 - MongoDB
+
+### Installation
+
+1. Clone the repo
+
+```sh
+git clone https://github.com/Torres-ssf/gobarber-backend
+```
+
+2. CD into the project root directory
+
+```sh
+cd gobarber-backend/
+```
+
+3. Install npm packages
+
+```sh
+yarn
+```
+
+4. Set up databases
+
+  a. Remove the ```example``` from the ormconfig.example.json file.
+  b. Assign values according with your configuration.
+  ```json
+  "port": 5432,
+    "username": "postgres usename",
+    "password": "postgres password",
+    "database": "database name",
+  ```
+
+
 
 ### Setup
 

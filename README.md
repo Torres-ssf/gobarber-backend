@@ -100,20 +100,27 @@ yarn
 
 4. Set up databases
   - Remove the ```example``` from the `ormconfig.example.json` file.
-  - Setting up PostgreSQl
-    - Assign values according with the postgres configuration in your system.
+  - Assign values according with the postgres configuration in your system.
+
+  - Setting up PostgreSQL
     ```json
     "port": 5432,
       "username": "postgres username",
       "password": "postgres password",
       "database": "database name",
     ```
-    - Assign the port the was configured in your system (default is `5432`) for the `port` object.  
+    - Assign the port number that was configured in your system to the `port` object (default is `5432`).  
     - Assign your postgres username to the `username` object.
     - Assign your postgres password to the `password` object.
     - Assign an existent postgres database name to the `database` object.
-  - Setting up MongoDB
 
+  - Setting up MongoDB
+    ```json
+    "port": 27017,
+    "database": "gobarber",
+    ```
+    - Assign the port number that was configured in your system to the `port` object (default is `27027`).
+    - Assign an existent mongodb database name to the `database` object.
 
 
 ### Setup

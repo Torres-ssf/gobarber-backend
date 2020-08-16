@@ -154,6 +154,12 @@ yarn dev:server
 
 Script for development stage. If all the installation section was properly made, the app is ready to be used.
 
+```
+  yarn typeorm
+```
+
+Script design to do typeorm task, like creating and revert migrations.
+
 ### Run tests
 
 ```

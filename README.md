@@ -135,6 +135,15 @@ yarn typeorm migration:run
   APP_SECRET=generatedMD5HashHere
   ```
 
+7. Both `APP_WEB_URL` and `APP_API_URL` are already defined at the `.env.example` file. These URLs are ready to be used in development state for both the web and mobile versions.
+
+8. This uses Ethereal to test email services in the development stage. But it alsos supports AWS SES. By default `MAIL_PROVIDER` is already configured to use Ethereal, in order to use AWS SES you will need to change the variable value.
+```
+MAIL_PROVIDER=ses
+```
+
+9. All other AWS environments variables should also be assigned with your information and credentials(When using AWS SES only).
+
 ### Usage
 
 ### Run tests

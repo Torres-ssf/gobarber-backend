@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <span style="background:#312E38;">
+  <span style="background:#312E38;width:165.34px;height:45px;">
     <img src="GoBarber.png" alt="Logo" width="165.34" height="45">
   </span>
 
@@ -25,7 +25,7 @@
 
 # Gobarber Backend
 
-> an application for service providers, such as Barbers, to control customer schedules, received via the Mobile application.
+> Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application.
 
 <!-- ![screenshot](./app_screenshot.png) -->
 

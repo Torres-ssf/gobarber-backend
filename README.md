@@ -6,9 +6,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <span style="background-color:red;width:166px;height:45px;display:block;">
-    <img src="GoBarber.png" alt="Logo" width="165.34" height="45">
-  </span>
+
+  <img src="logo.png" alt="Logo" width="165.34" height="45">
 
   <h3 align="center">Gobarber Backend</h3>
 

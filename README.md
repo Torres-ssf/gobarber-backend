@@ -100,8 +100,8 @@ yarn
 
 4. Set up databases
 
-  a. Remove the ```example``` from the ormconfig.example.json file.
-  b. Assign values according with your configuration.
+  a - Remove the ```example``` from the ormconfig.example.json file.
+  b - Assign values according with your configuration.
   ```json
   "port": 5432,
     "username": "postgres usename",

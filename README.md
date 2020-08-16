@@ -122,10 +122,11 @@ yarn
     - Assign the port number that was configured in your system to the `port` object (default is `27027`).
     - Assign an existent mongodb database name to the `database` object.
 
+5. Run migrate command to create all migrations.
+```
+yarn typeorm migration:run
+```
 
-### Setup
-
-### Install
 
 ### Usage
 

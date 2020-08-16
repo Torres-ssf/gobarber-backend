@@ -4,6 +4,7 @@
 [![Issues][issues-shield]][issues-url]
 
 <!-- PROJECT LOGO -->
+
 <br />
 <p align="center">
 
@@ -22,13 +23,15 @@
   </p>
 </p>
 
-# Gobarber Backend
+<!-- ABOUT THE PROJECT -->
 
-> Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application.
+## About The Project
 
-<!-- ![screenshot](./app_screenshot.png) -->
+Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application.
 
-Additional description about the project and its features.
+## API Documentation
+
+Click [ here ](https://github.com/Torres-ssf/gobarber-backend/) to explore the API documentation(SOON).
 
 ## Built With
 

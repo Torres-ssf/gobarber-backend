@@ -135,7 +135,7 @@ yarn typeorm migration:run
   APP_SECRET=generatedMD5HashHere
   ```
 
-7. Both `APP_WEB_URL` and `APP_API_URL` are already defined at the `.env.example` file. These URLs are ready to be used in development state for both the web and mobile versions.
+7. Both `APP_WEB_URL` and `APP_API_URL` are already defined at the `.env.example` file. These URLs are ready to be used in development stage for both the web and mobile versions.
 
 8. This uses Ethereal to test email services in the development stage. But it alsos supports AWS SES. By default `MAIL_PROVIDER` is already configured to use Ethereal, in order to use AWS SES you will need to change the variable value.
 ```
@@ -146,7 +146,19 @@ MAIL_PROVIDER=ses
 
 ### Usage
 
+App Scripts:
+
+```
+yarn dev:server
+```
+
+Script for development stage. If all the installation section was properly made, the app is ready to be used.
+
 ### Run tests
+
+```
+yarn test
+```
 
 ### Deployment
 
@@ -156,9 +168,9 @@ MAIL_PROVIDER=ses
 
 👤 **Torres-ssf**
 
-- Github: [@githubhandle](https://github.com/Torres-ssf)
-- Twitter: [@twitterhandle](https://twitter.com/torres_ssf)
-- Linkedin: [linkedin](https://www.linkedin.com/in/torres-ssf/)
+- Github: [@Torres-ssf](https://github.com/Torres-ssf)
+- Twitter: [@torres_ssf](https://twitter.com/torres_ssf)
+- Linkedin: [torres-ssf](https://www.linkedin.com/in/torres-ssf/)
 
 ## 🤝 Contributing
 

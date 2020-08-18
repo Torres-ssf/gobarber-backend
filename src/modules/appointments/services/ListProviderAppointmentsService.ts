@@ -48,8 +48,6 @@ class ListProviderAppointmentsService {
         },
       );
 
-      console.log('save daily appointments in cache');
-
       await this.cacheProvider.save(cacheKey, appointments);
     }
 

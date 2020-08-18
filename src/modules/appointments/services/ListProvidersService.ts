@@ -34,8 +34,6 @@ class ListProvidersService {
         except_user_id: user_id,
       });
 
-      console.log('saving on cache');
-
       await this.cacheProvider.save(`providers-list:${user_id}`, providers);
     }
 

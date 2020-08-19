@@ -42,13 +42,11 @@ describe('ListProvidersService', () => {
     const save = jest.spyOn(fakeCacheProvider, 'save');
     const recover = jest.spyOn(fakeCacheProvider, 'recover');
 
-    const provider = await fakeUsersRepository.create({
+    await fakeUsersRepository.create({
       name: 'User',
       email: 'user@email.com',
       password: '123456',
     });
-
-    console.log(provider);
 
     await listProvidersService.execute({
       user_id: '23123123',

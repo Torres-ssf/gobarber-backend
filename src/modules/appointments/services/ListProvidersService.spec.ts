@@ -28,7 +28,7 @@ describe('ListProvidersService', () => {
     expect(save).toHaveBeenCalled();
   });
 
-  it('should look for the saved data in the cache', async () => {
+  it('should recover for the saved data in the cache', async () => {
     const recover = jest.spyOn(fakeCacheProvider, 'recover');
 
     await listProvidersService.execute({
@@ -36,6 +36,34 @@ describe('ListProvidersService', () => {
     });
 
     expect(recover).toHaveBeenCalled();
+  });
+
+  it('should retrive data from the cache when data was saved before', async () => {
+    const save = jest.spyOn(fakeCacheProvider, 'save');
+    const recover = jest.spyOn(fakeCacheProvider, 'recover');
+
+    const provider = await fakeUsersRepository.create({
+      name: 'User',
+      email: 'user@email.com',
+      password: '123456',
+    });
+
+    console.log(provider);
+
+    await listProvidersService.execute({
+      user_id: '23123123',
+    });
+
+    await listProvidersService.execute({
+      user_id: '23123123',
+    });
+
+    await listProvidersService.execute({
+      user_id: '23123123',
+    });
+
+    expect(save).toHaveBeenCalledTimes(1);
+    expect(recover).toHaveBeenCalledTimes(3);
   });
 
   it('should be able to list the providers', async () => {

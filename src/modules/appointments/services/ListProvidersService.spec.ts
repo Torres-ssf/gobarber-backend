@@ -18,6 +18,16 @@ describe('ListProvidersService', () => {
     );
   });
 
+  it('should look for the saved data in the cache', async () => {
+    const recover = jest.spyOn(fakeCacheProvider, 'recover');
+
+    await listProvidersService.execute({
+      user_id: '23123123',
+    });
+
+    expect(recover).toHaveBeenCalled();
+  });
+
   it('should be able to list the providers', async () => {
     const loggedUser = await fakeUsersRepository.create({
       name: 'Paul',

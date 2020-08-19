@@ -18,6 +18,16 @@ describe('ListProvidersService', () => {
     );
   });
 
+  it('should save data in the cache', async () => {
+    const save = jest.spyOn(fakeCacheProvider, 'save');
+
+    await listProvidersService.execute({
+      user_id: '23123123',
+    });
+
+    expect(save).toHaveBeenCalled();
+  });
+
   it('should look for the saved data in the cache', async () => {
     const recover = jest.spyOn(fakeCacheProvider, 'recover');
 

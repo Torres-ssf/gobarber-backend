@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import ListProviderAppointmentsService from '@modules/appointments/services/ListProviderAppointmentsService';
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 
 interface IRandomNumber {
   min: number;
@@ -9,6 +10,7 @@ interface IRandomNumber {
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listProviderAppointmentsService: ListProviderAppointmentsService;
+let fakeCacheProvider: FakeCacheProvider;
 
 const randomNumber = ({ min, max }: IRandomNumber): number => {
   return min + Math.floor((max - min) * Math.random());
@@ -17,8 +19,10 @@ const randomNumber = ({ min, max }: IRandomNumber): number => {
 describe('ListProviderAppointmentsService', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
+    fakeCacheProvider = new FakeCacheProvider();
     listProviderAppointmentsService = new ListProviderAppointmentsService(
       fakeAppointmentsRepository,
+      fakeCacheProvider,
     );
   });
 

@@ -2,11 +2,13 @@ import 'reflect-metadata';
 import CreateUserService from '@modules/users/services/CreateUserService';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import AppError from '@shared/errors/AppError';
 
 describe('CreateUser', () => {
   let fakeUserRepository: FakeUsersRepository;
   let fakeHashProvider: FakeHashProvider;
+  let fakeCacheProvider: FakeCacheProvider;
   let createUserService: CreateUserService;
 
   beforeEach(() => {
@@ -14,9 +16,12 @@ describe('CreateUser', () => {
 
     fakeHashProvider = new FakeHashProvider();
 
+    fakeCacheProvider = new FakeCacheProvider();
+
     createUserService = new CreateUserService(
       fakeUserRepository,
       fakeHashProvider,
+      fakeCacheProvider,
     );
   });
 

@@ -47,6 +47,7 @@ Back-End(server)
 - [TypeORM](https://www.npmjs.com/package/typeorm)
 - [PostgreSQL](https://www.npmjs.com/package/pg)
 - [MongoDB](https://www.npmjs.com/package/mongodb)
+- [Redis](https://www.npmjs.com/package/redis)
 - [Nodemailer](https://www.npmjs.com/package/nodemailer)
 - [Bcryptjs](https://www.npmjs.com/package/bcryptjs)
 - [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
@@ -99,7 +100,8 @@ yarn
 ```
 
 4. Set up databases
-  - Remove the ```example``` from the `ormconfig.example.json` file.
+  This project uses `Postgres`, `MongoDb` and `Redis`. You will need to have all 3 running into your system. I recommend using [Docker](https://www.docker.com/) for simplicity.
+  - Make a copy of the `example.ormconfig.json` file and rename it removing the ```example.```.
   - Assign values according with the postgres configuration in your system.
 
   - Setting up PostgreSQL
@@ -119,8 +121,11 @@ yarn
     "port": 27017,
     "database": "gobarber",
     ```
-    - Assign the port number that was configured in your system to the `port` object (default is `27027`).
-    - Assign an existent mongodb database name to the `database` object.
+    - Assign the MongoDB port number that was configured in your system to the `port` object (default is `27027`).
+    - Assign a name of your preference for the database at the `database` object. The new database will be created automatically.
+
+  - Setting up Redis
+    - Redis is already setup in the .env.example file. You just need to have it running into your system.
 
 5. Run migrate command to create all migrations.
 ```

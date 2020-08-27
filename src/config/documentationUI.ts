@@ -26,22 +26,7 @@ const apiConfig = {
           content: {
             'application/json': {
               schema: {
-                type: 'object',
-                required: ['name', 'email', 'password'],
-                properties: {
-                  name: {
-                    type: 'string',
-                  },
-                  email: {
-                    type: 'string',
-                    format: 'email',
-                  },
-                  password: {
-                    type: 'string',
-                    format: 'password',
-                    minLength: 6,
-                  },
-                },
+                $ref: '#/definitions/userCreateScheme',
               },
               example: {
                 name: 'Paul Smith',
@@ -106,7 +91,7 @@ const apiConfig = {
             $ref: '#/components/responses/SuccessfulUserResponse',
           },
           '401': {
-            $ref: '#/components/responses/ResponseMissingToken',
+            $ref: '#/components/responses/ResponseErrorToken',
           },
         },
       },
@@ -167,14 +152,26 @@ const apiConfig = {
                   type: 'object',
                   properties: {
                     user: {
-                      $ref: '#/definitions/UserResponse',
+                      $ref: '#/definitions/userResponseScheme',
                     },
                     token: {
                       type: 'string',
-                      example:
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg0NzI5NDYsImV4cCI6MTU5ODU1OTM0Niwic3ViIjoiYTNhYjNlMGMtYjkwOC00MWQ1LWE5N2ItOWI2NGM0MjMxNDY5In0.JPmJOf_3E8rrLb3dfPs9Vd1bOBmI5jwXyO8I7yuuWMI',
                     },
                   },
+                },
+                example: {
+                  user: {
+                    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    name: 'Paul Smith',
+                    email: 'paul_smith@email.com',
+                    avatar: '94208754a8f9cf345ba0-profile.jpeg',
+                    created_at: '2020-08-27T19:15:52.696Z',
+                    updated_at: '2020-08-27T19:15:52.696Z',
+                    avatar_url:
+                      'https://gobarber.amazonaws.com/94208754a8f9cf345ba0-profile.jpeg',
+                  },
+                  token:
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg0NzI5NDYsImV4cCI6MTU5ODU1OTM0Niwic3ViIjoiYTNhYjNlMGMtYjkwOC00MWQ1LWE5N2ItOWI2NGM0MjMxNDY5In0.JPmJOf_3E8rrLb3dfPs9Vd1bOBmI5jwXyO8I7yuuWMI',
                 },
               },
             },
@@ -237,6 +234,35 @@ const apiConfig = {
           },
         },
       },
+      Appointments: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            format: 'uuid',
+          },
+          provider_id: {
+            type: 'string',
+            format: 'uuid',
+          },
+          user_id: {
+            type: 'string',
+            format: 'uuid',
+          },
+          date: {
+            type: 'string',
+            format: 'date-time',
+          },
+          created_at: {
+            type: 'string',
+            format: 'date-time',
+          },
+          updated_at: {
+            type: 'string',
+            format: 'date-time',
+          },
+        },
+      },
     },
     securitySchemes: {
       bearerAuth: {
@@ -251,7 +277,17 @@ const apiConfig = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/UserResponse',
+              $ref: '#/definitions/userResponseScheme',
+            },
+            example: {
+              id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+              name: 'Paul Smith',
+              email: 'paul_smith@email.com',
+              avatar: '94208754a8f9cf345ba0-profile.jpeg',
+              created_at: '2020-08-27T19:15:52.696Z',
+              updated_at: '2020-08-27T19:15:52.696Z',
+              avatar_url:
+                'https://gobarber.amazonaws.com/94208754a8f9cf345ba0-profile.jpeg',
             },
           },
         },
@@ -293,7 +329,7 @@ const apiConfig = {
     },
   },
   definitions: {
-    UserResponse: {
+    userResponseScheme: {
       type: 'object',
       properties: {
         id: {
@@ -302,16 +338,13 @@ const apiConfig = {
         },
         name: {
           type: 'string',
-          example: 'Paul Smith',
         },
         email: {
           type: 'string',
           format: 'email',
-          example: 'paul_smith@email.com',
         },
         avatar: {
           type: 'string',
-          example: 'image filename saved in the system',
         },
         created_at: {
           type: 'string',
@@ -323,7 +356,24 @@ const apiConfig = {
         },
         avatar_url: {
           type: 'string',
-          example: 'image external storage link',
+        },
+      },
+    },
+    userCreateScheme: {
+      type: 'object',
+      required: ['name', 'email', 'password'],
+      properties: {
+        name: {
+          type: 'string',
+        },
+        email: {
+          type: 'string',
+          format: 'email',
+        },
+        password: {
+          type: 'string',
+          format: 'password',
+          minLength: 6,
         },
       },
     },

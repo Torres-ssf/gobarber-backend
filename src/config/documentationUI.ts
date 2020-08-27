@@ -199,6 +199,91 @@ const apiConfig = {
         },
       },
     },
+    '/appointments': {
+      post: {
+        tags: ['Appointments'],
+        summary: 'Creates a new appointment',
+        description:
+          'Request to create a new appointment in the server. This request is used by authenticated users to create appointments with the desired provider',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/definitions/appointmentsCreateScheme',
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'The appointment was successfully created',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Appointments',
+                },
+              },
+            },
+          },
+          '400': {
+            description:
+              'Bad Request. It can happen weather a user tries to create an appointment in the past, an appointment outside office hours, when there is another appointment already schedule at the same time, or if a user (which is also a provider in this case) tries to create an appointment with him/her self',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    status: {
+                      type: 'string',
+                    },
+                    message: {
+                      type: 'string',
+                    },
+                  },
+                },
+                examples: {
+                  pastDate: {
+                    summary: 'past date',
+                    value: {
+                      name: 'error',
+                      message: "Can't create an appointment on a past date",
+                    },
+                  },
+
+                  outsideOfficeHours: {
+                    summary: 'outside office hours',
+                    value: {
+                      name: 'error',
+                      message:
+                        "Appointments can't be created before 8am and after 5pm",
+                    },
+                  },
+                  alreadyBooked: {
+                    summary: 'already booked',
+                    value: {
+                      name: 'error',
+                      message: 'This appointment is already booked',
+                    },
+                  },
+                  withSelf: {
+                    summary: 'with yourself',
+                    value: {
+                      name: 'error',
+                      message: "You can't create an appointment with yourself",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '401': {
+            $ref: '#/components/responses/ResponseErrorToken',
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -293,7 +378,8 @@ const apiConfig = {
         },
       },
       ResponseErrorToken: {
-        description: 'Bearer token not provided or an invalid one was provided',
+        description:
+          'Unauthorized error. Happens when the bearer token is not provided or the a invalid one was used instead',
         content: {
           'application/json': {
             schema: {
@@ -374,6 +460,20 @@ const apiConfig = {
           type: 'string',
           format: 'password',
           minLength: 6,
+        },
+      },
+    },
+    appointmentsCreateScheme: {
+      type: 'object',
+      required: ['name', 'email', 'password'],
+      properties: {
+        provider_id: {
+          type: 'string',
+          format: 'uuid',
+        },
+        date: {
+          type: 'string',
+          format: 'date-time',
         },
       },
     },

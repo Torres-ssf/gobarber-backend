@@ -247,6 +247,16 @@ const apiConfig = {
           },
         },
       },
+      ResponseInvalidToken: {
+        description: 'Invalid bearer token provided',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/ErrorInvalidToken',
+            },
+          },
+        },
+      },
     },
   },
   definitions: {

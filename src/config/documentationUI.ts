@@ -9,7 +9,6 @@ const apiConfig = {
       url: 'https://opensource.org/licenses/MIT',
     },
   },
-  // servers: [{ url: 'localhost:3333', description: 'default server' }],
   tags: [
     {
       name: 'Users',
@@ -282,6 +281,19 @@ const apiConfig = {
         avatar_url: {
           type: 'string',
           example: 'image external storage link',
+        },
+      },
+    },
+    ErrorInvalidToken: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          example: 'error',
+        },
+        message: {
+          type: 'string',
+          example: 'Invalid JWT token',
         },
       },
     },

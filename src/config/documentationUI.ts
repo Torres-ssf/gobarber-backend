@@ -31,20 +31,22 @@ const apiConfig = {
                 properties: {
                   name: {
                     type: 'string',
-                    example: 'Paul Smith',
                   },
                   email: {
                     type: 'string',
                     format: 'email',
-                    example: 'paul_smith@email.com',
                   },
                   password: {
                     type: 'string',
                     format: 'password',
                     minLength: 6,
-                    example: '123456',
                   },
                 },
+              },
+              example: {
+                name: 'Paul Smith',
+                email: 'paul_smith@email.com',
+                password: '123456',
               },
             },
           },
@@ -105,6 +107,23 @@ const apiConfig = {
           },
           '401': {
             $ref: '#/components/responses/ResponseMissingToken',
+          },
+        },
+      },
+    },
+    '/profile': {
+      get: {
+        tags: ['Users'],
+        summary: 'Gets user information',
+        description:
+          'Request to return all relevant user information. This requests requires user authentication',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            $ref: '#/components/responses/SuccessfulUserResponse',
+          },
+          '401': {
+            $ref: '#/components/responses/ResponseErrorToken',
           },
         },
       },
@@ -237,24 +256,38 @@ const apiConfig = {
           },
         },
       },
-      ResponseMissingToken: {
-        description: 'Bearer token not provided',
+      ResponseErrorToken: {
+        description: 'Bearer token not provided or an invalid one was provided',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/ErrorMissingToken',
+              $ref: '#/definitions/errorTokenScheme',
+            },
+            examples: {
+              missingToken: {
+                $ref: '#/components/examples/missingTokenBodyExample',
+              },
+              invalidToken: {
+                $ref: '#/components/examples/invalidTokenBodyExample',
+              },
             },
           },
         },
       },
-      ResponseInvalidToken: {
-        description: 'Invalid bearer token provided',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/definitions/ErrorInvalidToken',
-            },
-          },
+    },
+    examples: {
+      missingTokenBodyExample: {
+        summary: 'Missing token',
+        value: {
+          name: 'error',
+          message: 'JWT token is missing',
+        },
+      },
+      invalidTokenBodyExample: {
+        summary: 'Invalid token',
+        value: {
+          name: 'error',
+          message: 'Invalid JWT token',
         },
       },
     },
@@ -294,29 +327,14 @@ const apiConfig = {
         },
       },
     },
-    ErrorInvalidToken: {
+    errorTokenScheme: {
       type: 'object',
       properties: {
         status: {
           type: 'string',
-          example: 'error',
         },
         message: {
           type: 'string',
-          example: 'Invalid JWT token',
-        },
-      },
-    },
-    ErrorMissingToken: {
-      type: 'object',
-      properties: {
-        status: {
-          type: 'string',
-          example: 'error',
-        },
-        message: {
-          type: 'string',
-          example: 'JWT token is missing',
         },
       },
     },

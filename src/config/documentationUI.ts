@@ -1,5 +1,5 @@
 const apiConfig = {
-  swagger: '2.0',
+  openapi: '3.0.3',
   info: {
     version: '1.0.0',
     title: 'GoBarber API',
@@ -9,10 +9,7 @@ const apiConfig = {
       url: 'https://opensource.org/licenses/MIT',
     },
   },
-  host: 'localhost:3333',
-  schemes: ['http', 'https'],
-  consumes: ['application/json'],
-  produces: ['application/json'],
+  // servers: [{ url: 'localhost:3333', description: 'default server' }],
   tags: [
     {
       name: 'Users',
@@ -23,79 +20,92 @@ const apiConfig = {
     '/users': {
       post: {
         tags: ['Users'],
-        summary: 'Creates a new user',
-        parameters: [
-          {
-            name: 'body',
-            in: 'body',
-            description: 'Add new to user into the system',
-            schema: {
-              type: 'object',
-              properties: {
-                name: {
-                  type: 'string',
-                  example: 'Paul Smith',
-                },
-                email: {
-                  type: 'string',
-                  format: 'email',
-                  example: 'paul_smith@email.com',
-                },
-                password: {
-                  type: 'string',
-                  format: 'password',
-                  minLength: 6,
-                  example: '123456',
+        summary: 'Creates a new User',
+        description: 'Register request. Creates a new User into the server.',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name', 'email', 'password'],
+                properties: {
+                  name: {
+                    type: 'string',
+                    example: 'Paul Smith',
+                  },
+                  email: {
+                    type: 'string',
+                    format: 'email',
+                    example: 'paul_smith@email.com',
+                  },
+                  password: {
+                    type: 'string',
+                    format: 'password',
+                    minLength: 6,
+                    example: '123456',
+                  },
                 },
               },
             },
           },
-        ],
-        produces: ['application/json'],
+        },
         responses: {
           '200': {
-            description: 'OK',
-            schema: {
-              type: 'object',
-              properties: {
-                name: {
-                  type: 'string',
-                },
-                email: {
-                  type: 'string',
-                  format: 'email',
-                },
-                id: {
-                  type: 'string',
-                  format: 'uuid',
-                },
-                created_at: {
-                  type: 'string',
-                  format: 'date-time',
-                },
-                updated_at: {
-                  type: 'string',
-                  format: 'date-time',
-                },
-                avatar_url: {
-                  type: 'string',
-                },
-              },
-            },
+            $ref: '#/components/responses/SuccessfulUserResponse',
           },
           '400': {
             description: 'Bad Request',
-            schema: {
-              type: 'object',
-              properties: {
-                status: {
-                  type: 'string',
-                },
-                message: {
-                  type: 'string',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    status: {
+                      type: 'string',
+                      example: 'error',
+                    },
+                    message: {
+                      type: 'string',
+                      example: 'Email address already taken',
+                    },
+                  },
                 },
               },
             },
+          },
+        },
+      },
+    },
+    '/users/avatar': {
+      patch: {
+        tags: ['Users'],
+        summary: 'Updates user avatar',
+        description:
+          'Request to update the avatar image from an existent user in the server. This request requires user authentication',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'multipart/form-data': {
+              schema: {
+                type: 'object',
+                properties: {
+                  avatar: {
+                    type: 'string',
+                    format: 'binary',
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            $ref: '#/components/responses/SuccessfulUserResponse',
+          },
+          '401': {
+            $ref: '#/components/responses/ResponseMissingToken',
           },
         },
       },
@@ -104,88 +114,69 @@ const apiConfig = {
       post: {
         tags: ['Sessions'],
         summary: 'Create a new session into the system.',
-        parameters: [
-          {
-            name: 'body',
-            in: 'body',
-            description:
-              'Create a new session into the system. This request is used for User authentication. When a correct combination of email and password is provided, the request returns all relevant user information for the client-side and a token that grants access to authenticated users',
-            schema: {
-              type: 'object',
-              properties: {
-                email: {
-                  type: 'string',
-                  format: 'email',
-                },
-                password: {
-                  type: 'string',
-                  format: 'password',
-                  minLength: 6,
+        description:
+          'Creates a new session into the system. This request is used for User authentication. When a correct combination of email and password is provided, the request returns all relevant user information for the client-side and a token that grants access to authenticated users',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['email', 'password'],
+                properties: {
+                  email: {
+                    type: 'string',
+                    format: 'email',
+                    example: 'paul_smith@email.com',
+                  },
+                  password: {
+                    type: 'string',
+                    format: 'password',
+                    minLength: 6,
+                    example: '123456',
+                  },
                 },
               },
             },
           },
-        ],
-        produces: ['application/json'],
+        },
         responses: {
           '200': {
-            description: 'OK',
-            schema: {
-              type: 'object',
-              properties: {
-                user: {
+            description: 'Successful request',
+            content: {
+              'application/json': {
+                schema: {
                   type: 'object',
                   properties: {
-                    name: {
-                      type: 'string',
-                      example: 'Paul Smith',
+                    user: {
+                      $ref: '#/definitions/UserResponse',
                     },
-                    email: {
+                    token: {
                       type: 'string',
-                      format: 'email',
-                      example: 'paul_smith@email.com',
-                    },
-                    id: {
-                      type: 'string',
-                      format: 'uuid',
-                    },
-                    created_at: {
-                      type: 'string',
-                      format: 'date-time',
-                    },
-                    updated_at: {
-                      type: 'string',
-                      format: 'date-time',
-                    },
-                    avatar: {
-                      type: 'string',
-                      example: '0745c74169a30e967e59-profile.jpeg',
-                    },
-                    avatar_url: {
-                      type: 'string',
+                      example:
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg0NzI5NDYsImV4cCI6MTU5ODU1OTM0Niwic3ViIjoiYTNhYjNlMGMtYjkwOC00MWQ1LWE5N2ItOWI2NGM0MjMxNDY5In0.JPmJOf_3E8rrLb3dfPs9Vd1bOBmI5jwXyO8I7yuuWMI',
                     },
                   },
-                },
-                token: {
-                  type: 'string',
-                  example:
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTgyOTczNDUsImV4cCI6MTU5ODM4Mzc0NSwic3ViIjoiZWE4ZWYwM2EtN2FhNi00ZjI5LWEwMjQtZTRhOWFiNzRkYTE3In0.qfEvEXo9Zw9wHWdh5LrAAWlMVWA-d3w1HeHms_ANo70',
                 },
               },
             },
           },
           '400': {
             description: 'Bad Request',
-            schema: {
-              type: 'object',
-              properties: {
-                status: {
-                  type: 'string',
-                  example: 'error',
-                },
-                message: {
-                  type: 'string',
-                  example: 'Invalid email/password combination',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    status: {
+                      type: 'string',
+                      example: 'error',
+                    },
+                    message: {
+                      type: 'string',
+                      example: 'Invalid email/password combination',
+                    },
+                  },
                 },
               },
             },
@@ -194,8 +185,73 @@ const apiConfig = {
       },
     },
   },
+  components: {
+    schemas: {
+      User: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            format: 'uuid',
+          },
+          name: {
+            type: 'string',
+          },
+          email: {
+            type: 'string',
+            format: 'email',
+          },
+          password: {
+            type: 'string',
+            minLength: 6,
+            format: 'password',
+          },
+          avatar: {
+            type: 'string',
+          },
+          created_at: {
+            type: 'string',
+            format: 'date-time',
+          },
+          updated_at: {
+            type: 'string',
+            format: 'date-time',
+          },
+        },
+      },
+    },
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
+    responses: {
+      SuccessfulUserResponse: {
+        description: 'Successful request',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/UserResponse',
+            },
+          },
+        },
+      },
+      ResponseMissingToken: {
+        description: 'Bearer token not provided',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/ErrorMissingToken',
+            },
+          },
+        },
+      },
+    },
+  },
   definitions: {
-    User: {
+    UserResponse: {
       type: 'object',
       properties: {
         id: {
@@ -204,18 +260,16 @@ const apiConfig = {
         },
         name: {
           type: 'string',
+          example: 'Paul Smith',
         },
         email: {
           type: 'string',
           format: 'email',
-        },
-        password: {
-          type: 'string',
-          minLength: 6,
-          format: 'password',
+          example: 'paul_smith@email.com',
         },
         avatar: {
           type: 'string',
+          example: 'image filename saved in the system',
         },
         created_at: {
           type: 'string',
@@ -224,6 +278,23 @@ const apiConfig = {
         updated_at: {
           type: 'string',
           format: 'date-time',
+        },
+        avatar_url: {
+          type: 'string',
+          example: 'image external storage link',
+        },
+      },
+    },
+    ErrorMissingToken: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          example: 'error',
+        },
+        message: {
+          type: 'string',
+          example: 'JWT token is missing',
         },
       },
     },

@@ -124,77 +124,17 @@ const apiConfig = {
           content: {
             'application/json': {
               schema: {
-                type: 'object',
-                required: ['email', 'password'],
-                properties: {
-                  email: {
-                    type: 'string',
-                    format: 'email',
-                    example: 'paul_smith@email.com',
-                  },
-                  password: {
-                    type: 'string',
-                    format: 'password',
-                    minLength: 6,
-                    example: '123456',
-                  },
-                },
+                $ref: '#/definitions/userAuthenticationSchema',
               },
             },
           },
         },
         responses: {
           '200': {
-            description: 'Successful request',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    user: {
-                      $ref: '#/definitions/userResponseScheme',
-                    },
-                    token: {
-                      type: 'string',
-                    },
-                  },
-                },
-                example: {
-                  user: {
-                    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    name: 'Paul Smith',
-                    email: 'paul_smith@email.com',
-                    avatar: '94208754a8f9cf345ba0-profile.jpeg',
-                    created_at: '2020-08-27T19:15:52.696Z',
-                    updated_at: '2020-08-27T19:15:52.696Z',
-                    avatar_url:
-                      'https://gobarber.amazonaws.com/94208754a8f9cf345ba0-profile.jpeg',
-                  },
-                  token:
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg0NzI5NDYsImV4cCI6MTU5ODU1OTM0Niwic3ViIjoiYTNhYjNlMGMtYjkwOC00MWQ1LWE5N2ItOWI2NGM0MjMxNDY5In0.JPmJOf_3E8rrLb3dfPs9Vd1bOBmI5jwXyO8I7yuuWMI',
-                },
-              },
-            },
+            $ref: '#/components/responses/responseSuccessfulAuthentication',
           },
           '400': {
-            description: 'Bad Request',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    status: {
-                      type: 'string',
-                      example: 'error',
-                    },
-                    message: {
-                      type: 'string',
-                      example: 'Invalid email/password combination',
-                    },
-                  },
-                },
-              },
-            },
+            $ref: '#/components/responses/responseErrorAuthentication',
           },
         },
       },
@@ -375,6 +315,44 @@ const apiConfig = {
           },
         },
       },
+      responseSuccessfulAuthentication: {
+        description: 'Successful authentication response',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/userSuccessfulAuthenticationSchema',
+            },
+            example: {
+              user: {
+                id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                name: 'Paul Smith',
+                email: 'paul_smith@email.com',
+                avatar: '94208754a8f9cf345ba0-profile.jpeg',
+                created_at: '2020-08-27T19:15:52.696Z',
+                updated_at: '2020-08-27T19:15:52.696Z',
+                avatar_url:
+                  'https://gobarber.amazonaws.com/94208754a8f9cf345ba0-profile.jpeg',
+              },
+              token:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg0NzI5NDYsImV4cCI6MTU5ODU1OTM0Niwic3ViIjoiYTNhYjNlMGMtYjkwOC00MWQ1LWE5N2ItOWI2NGM0MjMxNDY5In0.JPmJOf_3E8rrLb3dfPs9Vd1bOBmI5jwXyO8I7yuuWMI',
+            },
+          },
+        },
+      },
+      responseErrorAuthentication: {
+        description: 'Bad request',
+        content: {
+          'json/application': {
+            schema: {
+              $ref: '#/definitions/globalErrorScheme',
+            },
+            example: {
+              status: 'error',
+              message: 'Invalid email/password combination',
+            },
+          },
+        },
+      },
     },
     examples: {
       missingTokenBodyExample: {
@@ -467,6 +445,34 @@ const apiConfig = {
           type: 'string',
           format: 'password',
           minLength: 6,
+        },
+      },
+    },
+    userAuthenticationSchema: {
+      type: 'object',
+      required: ['email', 'password'],
+      properties: {
+        email: {
+          type: 'string',
+          format: 'email',
+          example: 'paul_smith@email.com',
+        },
+        password: {
+          type: 'string',
+          format: 'password',
+          minLength: 6,
+          example: '123456',
+        },
+      },
+    },
+    userSuccessfulAuthenticationSchema: {
+      type: 'object',
+      properties: {
+        user: {
+          $ref: '#/definitions/userResponseScheme',
+        },
+        token: {
+          type: 'string',
         },
       },
     },

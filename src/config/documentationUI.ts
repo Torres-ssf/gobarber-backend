@@ -176,6 +176,23 @@ const apiConfig = {
         },
       },
     },
+    '/providers': {
+      get: {
+        tags: ['Providers'],
+        summary: 'Returns providers',
+        description:
+          'Returns all providers with the exception of the authenticated provider',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            $ref: '#/components/responses/responseSuccessfulGetAllProviders',
+          },
+          '401': {
+            $ref: '#/components/responses/ResponseErrorToken',
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -339,6 +356,34 @@ const apiConfig = {
           },
         },
       },
+      responseSuccessfulGetAllProviders: {
+        description: 'Successful response',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/providersAllSchema',
+            },
+            example: [
+              {
+                id: '15f5902b-1360-4590-8c13-2eee9a4cf402',
+                name: 'Pedro',
+                email: 'pedrinho@email.com',
+                avatar: null,
+                created_at: '2020-08-18T20:30:41.642Z',
+                updated_at: '2020-08-18T21:08:43.911Z',
+              },
+              {
+                id: '054e6677-ef90-4cd0-b1a7-c0095d1b25de',
+                name: 'Paul',
+                email: 'paul@email.com',
+                avatar: '0745c74169a30e967e59-profile.jpeg',
+                created_at: '2020-08-17T04:04:27.689Z',
+                updated_at: '2020-08-17T04:07:23.935Z',
+              },
+            ],
+          },
+        },
+      },
       responseErrorAuthentication: {
         description: 'Bad request',
         content: {
@@ -488,6 +533,12 @@ const apiConfig = {
           type: 'string',
           format: 'date-time',
         },
+      },
+    },
+    providersAllSchema: {
+      type: 'array',
+      items: {
+        $ref: '#/definitions/userResponseScheme',
       },
     },
     globalErrorScheme: {

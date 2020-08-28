@@ -176,10 +176,39 @@ const apiConfig = {
         },
       },
     },
+    '/appointments/me': {
+      get: {
+        tags: ['Appointments'],
+        summary: 'Gets all provider appointments in a day',
+        description:
+          'Returns all provider appointments in a given day. The day is specified by 3 parameters: day, month and year.',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            $ref: '#/components/parameters/paramDay',
+          },
+          {
+            $ref: '#/components/parameters/paramMonth',
+          },
+          {
+            $ref: '#/components/parameters/paramYear',
+          },
+        ],
+        responses: {
+          '200': {
+            $ref:
+              '#/components/responses/responseSuccessfulGetProviderAppointments',
+          },
+          '401': {
+            $ref: '#/components/responses/ResponseErrorToken',
+          },
+        },
+      },
+    },
     '/providers': {
       get: {
         tags: ['Providers'],
-        summary: 'Returns providers',
+        summary: 'Returns all providers',
         description:
           'Returns all providers with the exception of the authenticated provider',
         security: [{ bearerAuth: [] }],
@@ -265,6 +294,42 @@ const apiConfig = {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
+      },
+    },
+    parameters: {
+      paramDay: {
+        name: 'day',
+        in: 'query',
+        description: 'The desirable day of the month',
+        required: true,
+        schema: {
+          type: 'integer',
+          format: 'int32',
+          minimum: 1,
+          maximum: 31,
+        },
+      },
+      paramMonth: {
+        name: 'month',
+        in: 'query',
+        description: 'The desirable month',
+        required: true,
+        schema: {
+          type: 'integer',
+          format: 'int32',
+          minimum: 1,
+          maximum: 12,
+        },
+      },
+      paramYear: {
+        name: 'year',
+        in: 'query',
+        description: 'The desirable year',
+        required: true,
+        schema: {
+          type: 'integer',
+          format: 'int32',
+        },
       },
     },
     responses: {
@@ -381,6 +446,67 @@ const apiConfig = {
                 updated_at: '2020-08-17T04:07:23.935Z',
               },
             ],
+          },
+        },
+      },
+      responseSuccessfulGetProviderAppointments: {
+        description:
+          'A successful response returns an arrray of all appointment schedules for the given day with relevant information, both from the provider and from the user who made the appointment. If no appointments were created for the given day, the server will return an empty array.',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: {
+                $ref: '#/definitions/providerAppointmentsSchema',
+              },
+            },
+            examples: {
+              withAppointments: {
+                summary: 'with appointments on the day',
+                value: [
+                  {
+                    id: '2968dadf-d946-4139-9243-1d75b6f0eeb4',
+                    provider_id: 'bbed7b6d-179c-42aa-a768-1850ef298df9',
+                    user_id: '6a623986-d2f9-42ee-bb2a-06c81c46014a',
+                    date: '2020-08-29T15:00:00.000Z',
+                    created_at: '2020-08-29T02:15:45.451Z',
+                    updated_at: '2020-08-29T02:15:45.451Z',
+                    user: {
+                      id: '6a623986-d2f9-42ee-bb2a-06c81c46014a',
+                      name: 'User 10',
+                      email: 'user10@email.com',
+                      avatar: '8858e5a4b0d8fee3ad80-profile.jpeg',
+                      created_at: '2020-08-29T02:14:17.536Z',
+                      updated_at: '2020-08-29T02:14:17.536Z',
+                      avatar_url:
+                        'https://gobarber.s3.amazonaws.com/8858e5a4b0d8fee3ad80-profile.jpeg',
+                    },
+                  },
+                  {
+                    id: '6e520d6b-c6ae-404f-8938-30ca1d357202',
+                    provider_id: 'bbed7b6d-179c-42aa-a768-1850ef298df9',
+                    user_id: '924f11c4-dab3-4ae9-a470-15318d1165ce',
+                    date: '2020-08-29T17:00:00.000Z',
+                    created_at: '2020-08-29T02:15:59.365Z',
+                    updated_at: '2020-08-29T02:15:59.365Z',
+                    user: {
+                      id: '924f11c4-dab3-4ae9-a470-15318d1165ce',
+                      name: 'User 20',
+                      email: 'user20@email.com',
+                      avatar: '8858e5a4b0d8fee3ad80-profile.jpeg',
+                      created_at: '2020-08-29T02:14:26.290Z',
+                      updated_at: '2020-08-29T02:14:26.290Z',
+                      avatar_url:
+                        'https://gobarber.s3.amazonaws.com/8858e5a4b0d8fee3ad80-profile.jpeg',
+                    },
+                  },
+                ],
+              },
+              withoutAppointments: {
+                value: [],
+                summary: 'without appointments on the day',
+              },
+            },
           },
         },
       },
@@ -532,6 +658,40 @@ const apiConfig = {
         date: {
           type: 'string',
           format: 'date-time',
+        },
+      },
+    },
+    providerAppointmentsSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          format: 'uuid',
+        },
+        provider_id: {
+          type: 'string',
+          format: 'uuid',
+          example: '64662b5f-86c7-4789-aca3-fcded3a48a95',
+        },
+        user_id: {
+          type: 'string',
+          format: 'uuid',
+          example: '935834f4-027a-4e56-b936-4e28f2f3e654',
+        },
+        date: {
+          type: 'string',
+          format: 'date-time',
+        },
+        created_at: {
+          type: 'string',
+          format: 'date-time',
+        },
+        updated_at: {
+          type: 'string',
+          format: 'date-time',
+        },
+        user: {
+          $ref: '#/definitions/userResponseScheme',
         },
       },
     },

@@ -204,7 +204,7 @@ const apiConfig = {
         tags: ['Appointments'],
         summary: 'Creates a new appointment',
         description:
-          'Request to create a new appointment in the server. This request is used by authenticated users to create appointments with the desired provider',
+          'Request to create a new appointment in the server. This request is used by authenticated users to create appointments with the desired provider. This request requires authentication, therefore, the user id can be retrive from the provided bearer token.',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -228,55 +228,7 @@ const apiConfig = {
             },
           },
           '400': {
-            description:
-              'Bad Request. It can happen weather a user tries to create an appointment in the past, an appointment outside office hours, when there is another appointment already schedule at the same time, or if a user (which is also a provider in this case) tries to create an appointment with him/her self',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    status: {
-                      type: 'string',
-                    },
-                    message: {
-                      type: 'string',
-                    },
-                  },
-                },
-                examples: {
-                  pastDate: {
-                    summary: 'past date',
-                    value: {
-                      name: 'error',
-                      message: "Can't create an appointment on a past date",
-                    },
-                  },
-
-                  outsideOfficeHours: {
-                    summary: 'outside office hours',
-                    value: {
-                      name: 'error',
-                      message:
-                        "Appointments can't be created before 8am and after 5pm",
-                    },
-                  },
-                  alreadyBooked: {
-                    summary: 'already booked',
-                    value: {
-                      name: 'error',
-                      message: 'This appointment is already booked',
-                    },
-                  },
-                  withSelf: {
-                    summary: 'with yourself',
-                    value: {
-                      name: 'error',
-                      message: "You can't create an appointment with yourself",
-                    },
-                  },
-                },
-              },
-            },
+            $ref: '#/components/responses/responseErrorCreatingAppointment',
           },
           '401': {
             $ref: '#/components/responses/ResponseErrorToken',
@@ -329,10 +281,12 @@ const apiConfig = {
           provider_id: {
             type: 'string',
             format: 'uuid',
+            example: '64662b5f-86c7-4789-aca3-fcded3a48a95',
           },
           user_id: {
             type: 'string',
             format: 'uuid',
+            example: '935834f4-027a-4e56-b936-4e28f2f3e654',
           },
           date: {
             type: 'string',
@@ -383,7 +337,7 @@ const apiConfig = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/errorTokenScheme',
+              $ref: '#/definitions/globalErrorScheme',
             },
             examples: {
               missingToken: {
@@ -396,20 +350,73 @@ const apiConfig = {
           },
         },
       },
+      responseErrorCreatingAppointment: {
+        description:
+          'Bad Request. It can happen weather a user tries to create an appointment in the past, an appointment outside office hours, when there is another appointment already schedule at the same time, or if a user (which is also a provider in this case) tries to create an appointment with him/her self',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/globalErrorScheme',
+            },
+            examples: {
+              pastDate: {
+                $ref: '#/components/examples/exampleErrorPastDate',
+              },
+              outsideOfficeHours: {
+                $ref: '#/components/examples/exampleErrorOutsideOfficeHours',
+              },
+              alreadyBooked: {
+                $ref: '#/components/examples/exampleErrorAlreadyBooked',
+              },
+              withSelf: {
+                $ref: '#/components/examples/exampleErroWithSelf',
+              },
+            },
+          },
+        },
+      },
     },
     examples: {
       missingTokenBodyExample: {
-        summary: 'Missing token',
+        summary: 'missing token',
         value: {
           name: 'error',
           message: 'JWT token is missing',
         },
       },
       invalidTokenBodyExample: {
-        summary: 'Invalid token',
+        summary: 'invalid token',
         value: {
           name: 'error',
           message: 'Invalid JWT token',
+        },
+      },
+      exampleErrorPastDate: {
+        summary: 'past date',
+        value: {
+          name: 'error',
+          message: "Can't create an appointment on a past date",
+        },
+      },
+      exampleErrorOutsideOfficeHours: {
+        summary: 'outside office hours',
+        value: {
+          name: 'error',
+          message: "Appointments can't be created before 8am and after 5pm",
+        },
+      },
+      exampleErrorAlreadyBooked: {
+        summary: 'already booked',
+        value: {
+          name: 'error',
+          message: 'This appointment is already booked',
+        },
+      },
+      exampleErroWithSelf: {
+        summary: 'with yourself',
+        value: {
+          name: 'error',
+          message: "You can't create an appointment with yourself",
         },
       },
     },
@@ -465,7 +472,7 @@ const apiConfig = {
     },
     appointmentsCreateScheme: {
       type: 'object',
-      required: ['name', 'email', 'password'],
+      required: ['provider_id', 'date'],
       properties: {
         provider_id: {
           type: 'string',
@@ -477,7 +484,7 @@ const apiConfig = {
         },
       },
     },
-    errorTokenScheme: {
+    globalErrorScheme: {
       type: 'object',
       properties: {
         status: {

@@ -73,7 +73,7 @@ const apiConfig = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/definitions/userCreateScheme',
+                $ref: '#/definitions/userCreateSchema',
               },
               example: {
                 name: 'Paul Smith',
@@ -188,7 +188,7 @@ const apiConfig = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/definitions/userResponseScheme',
+                  $ref: '#/definitions/userResponseSchema',
                 },
               },
             },
@@ -214,7 +214,7 @@ const apiConfig = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/definitions/appointmentsCreateScheme',
+                $ref: '#/definitions/appointmentsCreateSchema',
               },
             },
           },
@@ -382,7 +382,7 @@ const apiConfig = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/definitions/globalErrorScheme',
+                  $ref: '#/definitions/globalErrorSchema',
                 },
                 example: {
                   status: 'error',
@@ -552,7 +552,7 @@ const apiConfig = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/userResponseScheme',
+              $ref: '#/definitions/userResponseSchema',
             },
             example: {
               id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
@@ -875,7 +875,7 @@ const apiConfig = {
         content: {
           'json/application': {
             schema: {
-              $ref: '#/definitions/globalErrorScheme',
+              $ref: '#/definitions/globalErrorSchema',
             },
             example: {
               status: 'error',
@@ -890,7 +890,7 @@ const apiConfig = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/globalErrorScheme',
+              $ref: '#/definitions/globalErrorSchema',
             },
             examples: {
               userNotFound: {
@@ -916,7 +916,7 @@ const apiConfig = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/globalErrorScheme',
+              $ref: '#/definitions/globalErrorSchema',
             },
             examples: {
               pastDate: {
@@ -941,7 +941,7 @@ const apiConfig = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/globalErrorScheme',
+              $ref: '#/definitions/globalErrorSchema',
             },
             examples: {
               expiredToken: {
@@ -963,14 +963,14 @@ const apiConfig = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/definitions/globalErrorScheme',
+              $ref: '#/definitions/globalErrorSchema',
             },
             examples: {
               missingToken: {
-                $ref: '#/components/examples/missingTokenBodyExample',
+                $ref: '#/components/examples/exampleErrorMissingTokenBody',
               },
               invalidToken: {
-                $ref: '#/components/examples/invalidTokenBodyExample',
+                $ref: '#/components/examples/exampleErrorInvalidTokenBody',
               },
             },
           },
@@ -978,14 +978,14 @@ const apiConfig = {
       },
     },
     examples: {
-      missingTokenBodyExample: {
+      exampleErrorMissingTokenBody: {
         summary: 'missing token',
         value: {
           name: 'error',
           message: 'JWT token is missing',
         },
       },
-      invalidTokenBodyExample: {
+      exampleErrorInvalidTokenBody: {
         summary: 'invalid token',
         value: {
           name: 'error',
@@ -1065,7 +1065,7 @@ const apiConfig = {
     },
   },
   definitions: {
-    userResponseScheme: {
+    userResponseSchema: {
       type: 'object',
       properties: {
         id: {
@@ -1095,7 +1095,7 @@ const apiConfig = {
         },
       },
     },
-    userCreateScheme: {
+    userCreateSchema: {
       type: 'object',
       required: ['name', 'email', 'password'],
       properties: {
@@ -1162,14 +1162,14 @@ const apiConfig = {
       type: 'object',
       properties: {
         user: {
-          $ref: '#/definitions/userResponseScheme',
+          $ref: '#/definitions/userResponseSchema',
         },
         token: {
           type: 'string',
         },
       },
     },
-    appointmentsCreateScheme: {
+    appointmentsCreateSchema: {
       type: 'object',
       required: ['provider_id', 'date'],
       properties: {
@@ -1213,7 +1213,7 @@ const apiConfig = {
           format: 'date-time',
         },
         user: {
-          $ref: '#/definitions/userResponseScheme',
+          $ref: '#/definitions/userResponseSchema',
         },
       },
     },
@@ -1254,7 +1254,7 @@ const apiConfig = {
     providersAllSchema: {
       type: 'array',
       items: {
-        $ref: '#/definitions/userResponseScheme',
+        $ref: '#/definitions/userResponseSchema',
       },
     },
     passwordResetSchema: {
@@ -1276,7 +1276,7 @@ const apiConfig = {
         },
       },
     },
-    globalErrorScheme: {
+    globalErrorSchema: {
       type: 'object',
       properties: {
         status: {

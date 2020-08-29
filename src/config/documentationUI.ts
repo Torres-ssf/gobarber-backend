@@ -3,7 +3,8 @@ const apiConfig = {
   info: {
     version: '1.0.0',
     title: 'GoBarber API',
-    description: 'The documentation of the GoBarber API',
+    description:
+      "The documentation of the GoBarber API. This documentation have all supported requests from the API. Most requests require user authentication. The authorization is made through the bearer token, you can simply use the user's post request with your credentials to create a new user then use the session's post request. The session request will return the token which can be used in the 'Authorize' button. This way you will be allowed to use all methods that require authentication.",
     license: {
       name: 'MIT',
       url: 'https://opensource.org/licenses/MIT',
@@ -11,11 +12,57 @@ const apiConfig = {
   },
   tags: [
     {
+      name: 'Sessions',
+      description: 'Operations related to authentication',
+    },
+    {
       name: 'Users',
-      description: 'API for users in the system',
+      description: 'Operations related to user',
+    },
+    {
+      name: 'Profile',
+      description: "Operations related to user's information",
+    },
+    {
+      name: 'Appointments',
+      description: 'Operations related to appointments',
+    },
+    {
+      name: 'Providers',
+      description: 'Operations related to providers',
+    },
+    {
+      name: 'Password',
+      description: "Operations related to user's password",
     },
   ],
   paths: {
+    '/sessions': {
+      post: {
+        tags: ['Sessions'],
+        summary: 'Create a new session into the system.',
+        description:
+          'Creates a new session into the system. This request is used for User authentication. When a correct combination of email and password is provided, the request returns all relevant user information for the client-side and a token that grants access to authenticated users',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/definitions/userAuthenticationSchema',
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            $ref: '#/components/responses/responseSuccessfulAuthentication',
+          },
+          '400': {
+            $ref: '#/components/responses/responseErrorAuthentication',
+          },
+        },
+      },
+    },
     '/users': {
       post: {
         tags: ['Users'],
@@ -38,7 +85,7 @@ const apiConfig = {
         },
         responses: {
           '200': {
-            $ref: '#/components/responses/SuccessfulUserResponse',
+            $ref: '#/components/responses/responseSuccessfulUser',
           },
           '400': {
             description: 'Bad Request',
@@ -88,53 +135,69 @@ const apiConfig = {
         },
         responses: {
           '200': {
-            $ref: '#/components/responses/SuccessfulUserResponse',
+            $ref: '#/components/responses/responseSuccessfulUser',
           },
           '401': {
-            $ref: '#/components/responses/ResponseErrorToken',
+            $ref: '#/components/responses/responseErrorToken',
           },
         },
       },
     },
     '/profile': {
       get: {
-        tags: ['Users'],
+        tags: ['Profile'],
         summary: 'Gets user information',
         description:
           'Request to return all relevant user information. This requests requires user authentication',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
-            $ref: '#/components/responses/SuccessfulUserResponse',
+            $ref: '#/components/responses/responseSuccessfulUser',
           },
           '401': {
-            $ref: '#/components/responses/ResponseErrorToken',
+            $ref: '#/components/responses/responseErrorToken',
           },
         },
       },
-    },
-    '/sessions': {
-      post: {
-        tags: ['Sessions'],
-        summary: 'Create a new session into the system.',
+      put: {
+        tags: ['Profile'],
+        summary: 'Updates user information',
         description:
-          'Creates a new session into the system. This request is used for User authentication. When a correct combination of email and password is provided, the request returns all relevant user information for the client-side and a token that grants access to authenticated users',
+          "Request to update user's information. The name and email fields are always required. If the user also wants to update his password, all 3 password properties are required. The server will verify if the new password and password confirmation have the same value.",
+        security: [{ bearerAuth: [] }],
         requestBody: {
-          required: true,
           content: {
-            'application/json': {
+            'json/application': {
               schema: {
-                $ref: '#/definitions/userAuthenticationSchema',
+                $ref: '#/definitions/userUpdateSchema',
+              },
+              example: {
+                name: 'Paul Smith',
+                email: 'paul_smith@email.com',
+                old_password: '123456',
+                password: '123123',
+                password_confirmation: '123123',
               },
             },
           },
         },
         responses: {
           '200': {
-            $ref: '#/components/responses/responseSuccessfulAuthentication',
+            description:
+              'Successful request. The server returns a body response with all updated user information.',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/definitions/userResponseScheme',
+                },
+              },
+            },
           },
           '400': {
-            $ref: '#/components/responses/responseErrorAuthentication',
+            $ref: '#/components/responses/responseErrorUpdatingUser',
+          },
+          '401': {
+            $ref: '#/components/responses/responseErrorToken',
           },
         },
       },
@@ -142,7 +205,7 @@ const apiConfig = {
     '/appointments': {
       post: {
         tags: ['Appointments'],
-        summary: 'Creates a new appointment',
+        summary: 'Creates new appointments',
         description:
           'Request to create a new appointment in the server. This request is used by authenticated users to create appointments with the desired provider. This request requires authentication, therefore, the user id can be retrive from the provided bearer token.',
         security: [{ bearerAuth: [] }],
@@ -171,7 +234,7 @@ const apiConfig = {
             $ref: '#/components/responses/responseErrorCreatingAppointment',
           },
           '401': {
-            $ref: '#/components/responses/ResponseErrorToken',
+            $ref: '#/components/responses/responseErrorToken',
           },
         },
       },
@@ -179,7 +242,7 @@ const apiConfig = {
     '/appointments/me': {
       get: {
         tags: ['Appointments'],
-        summary: 'Gets all provider appointments in a day',
+        summary: "Gets all provider's appointments in a day",
         description:
           'Returns all provider appointments in a given day. The day is specified by 3 parameters: day, month and year.',
         security: [{ bearerAuth: [] }],
@@ -200,7 +263,7 @@ const apiConfig = {
               '#/components/responses/responseSuccessfulGetProviderAppointments',
           },
           '401': {
-            $ref: '#/components/responses/ResponseErrorToken',
+            $ref: '#/components/responses/responseErrorToken',
           },
         },
       },
@@ -210,14 +273,14 @@ const apiConfig = {
         tags: ['Providers'],
         summary: 'Returns all providers',
         description:
-          'Returns all providers with the exception of the authenticated provider',
+          'Returns all providers saved in the system with the exception of the provider who made the request.',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
             $ref: '#/components/responses/responseSuccessfulGetAllProviders',
           },
           '401': {
-            $ref: '#/components/responses/ResponseErrorToken',
+            $ref: '#/components/responses/responseErrorToken',
           },
         },
       },
@@ -225,9 +288,9 @@ const apiConfig = {
     '/providers/{provider_id}/day-availability': {
       get: {
         tags: ['Providers'],
-        summary: 'Returns provider daily availability',
+        summary: "Returns provider's daily availability",
         description:
-          'The client-side can use this request to list all available daily time to create new appointments. This request requires user authentication.',
+          'Returns a list with all available daily schedules from a provider. This request requires user authentication.',
         security: [{ bearerAuth: [] }],
         parameters: [
           {
@@ -249,7 +312,36 @@ const apiConfig = {
               '#/components/responses/responseSuccessfulGetProviderDailyAvailability',
           },
           '401': {
-            $ref: '#/components/responses/ResponseErrorToken',
+            $ref: '#/components/responses/responseErrorToken',
+          },
+        },
+      },
+    },
+    '/providers/{provider_id}/month-availability': {
+      get: {
+        tags: ['Providers'],
+        summary: "Returns provider's monthly availability",
+        description:
+          'Returns a list with all available monthly schedules from a provider. This request requires user authentication.',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            $ref: '#/components/parameters/paramProviderId',
+          },
+          {
+            $ref: '#/components/parameters/paramMonth',
+          },
+          {
+            $ref: '#/components/parameters/paramYear',
+          },
+        ],
+        responses: {
+          '200': {
+            $ref:
+              '#/components/responses/responseSuccessfulGetProviderMonthlyAvailability',
+          },
+          '401': {
+            $ref: '#/components/responses/responseErrorToken',
           },
         },
       },
@@ -455,7 +547,7 @@ const apiConfig = {
       },
     },
     responses: {
-      SuccessfulUserResponse: {
+      responseSuccessfulUser: {
         description: 'Successful request',
         content: {
           'application/json': {
@@ -529,7 +621,7 @@ const apiConfig = {
       },
       responseSuccessfulGetProviderAppointments: {
         description:
-          'A successful response returns an arrray of all appointment schedules for the given day with relevant information, both from the provider and from the user who made the appointment. If no appointments were created for the given day, the server will return an empty array.',
+          'A successful response returns an array of all appointment schedules for the given day. Each item from the array contains relevant information, both from the provider and from the user who made the appointment. If no appointments were created for the given day, the server will return an empty array.',
         content: {
           'application/json': {
             schema: {
@@ -590,7 +682,7 @@ const apiConfig = {
       },
       responseSuccessfulGetProviderDailyAvailability: {
         description:
-          'Successful request. Returns an array object with the daily availability for to given provider.',
+          'Successful request. Returns an array object with the daily availability for to given provider. Hours gone by or hours with appointments already scheduled, will return the available propertie with false as a value',
         content: {
           'json/application': {
             schema: {
@@ -641,6 +733,143 @@ const apiConfig = {
           },
         },
       },
+      responseSuccessfulGetProviderMonthlyAvailability: {
+        description:
+          'Successful request. Returns an array object with the monthly availability for to given provider. Days gone by or days when there are no more vacant times to create appointments, will return the available propertie with false as a value',
+        content: {
+          'json/application': {
+            schema: {
+              $ref: '#/definitions/providerMonthlyAvailability',
+            },
+            example: [
+              {
+                day: 1,
+                available: false,
+              },
+              {
+                day: 2,
+                available: false,
+              },
+              {
+                day: 3,
+                available: false,
+              },
+              {
+                day: 4,
+                available: false,
+              },
+              {
+                day: 5,
+                available: false,
+              },
+              {
+                day: 6,
+                available: false,
+              },
+              {
+                day: 7,
+                available: false,
+              },
+              {
+                day: 8,
+                available: false,
+              },
+              {
+                day: 9,
+                available: false,
+              },
+              {
+                day: 10,
+                available: false,
+              },
+              {
+                day: 11,
+                available: false,
+              },
+              {
+                day: 12,
+                available: false,
+              },
+              {
+                day: 13,
+                available: false,
+              },
+              {
+                day: 14,
+                available: false,
+              },
+              {
+                day: 15,
+                available: false,
+              },
+              {
+                day: 16,
+                available: false,
+              },
+              {
+                day: 17,
+                available: false,
+              },
+              {
+                day: 18,
+                available: false,
+              },
+              {
+                day: 19,
+                available: false,
+              },
+              {
+                day: 20,
+                available: false,
+              },
+              {
+                day: 21,
+                available: false,
+              },
+              {
+                day: 22,
+                available: false,
+              },
+              {
+                day: 23,
+                available: false,
+              },
+              {
+                day: 24,
+                available: false,
+              },
+              {
+                day: 25,
+                available: false,
+              },
+              {
+                day: 26,
+                available: false,
+              },
+              {
+                day: 27,
+                available: false,
+              },
+              {
+                day: 28,
+                available: false,
+              },
+              {
+                day: 29,
+                available: true,
+              },
+              {
+                day: 30,
+                available: true,
+              },
+              {
+                day: 31,
+                available: true,
+              },
+            ],
+          },
+        },
+      },
       responseErrorAuthentication: {
         description: 'Bad request',
         content: {
@@ -655,9 +884,35 @@ const apiConfig = {
           },
         },
       },
+      responseErrorUpdatingUser: {
+        description:
+          'Bad request. It can happen whether the user tries to update his email to another one that is already beeing used in the database, or if the user tries to updates his password without providing the current one, or even if the user provide the wrong current password.',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/globalErrorScheme',
+            },
+            examples: {
+              userNotFound: {
+                $ref: '#/components/examples/exampleErrorUserNonexistent',
+              },
+              takenEmail: {
+                $ref: '#/components/examples/exampleErrorEmailTaken',
+              },
+              missingPassword: {
+                $ref:
+                  '#/components/examples/exampleErrorMissingCurrentPassword',
+              },
+              wrongPassword: {
+                $ref: '#/components/examples/exampleErrorWrongPassword',
+              },
+            },
+          },
+        },
+      },
       responseErrorCreatingAppointment: {
         description:
-          'Bad Request. It can happen weather a user tries to create an appointment in the past, an appointment outside office hours, when there is another appointment already schedule at the same time, or if a user (which is also a provider in this case) tries to create an appointment with him/her self',
+          'Bad Request. It can happen whether a user tries to create an appointment in the past, an appointment outside office hours, when there is another appointment already schedule at the same time, or if a user (which is also a provider in this case) tries to create an appointment with him/her self',
         content: {
           'application/json': {
             schema: {
@@ -702,7 +957,7 @@ const apiConfig = {
           },
         },
       },
-      ResponseErrorToken: {
+      responseErrorToken: {
         description:
           'Unauthorized error. Happens when the bearer token is not provided or the a invalid one was used instead',
         content: {
@@ -735,6 +990,34 @@ const apiConfig = {
         value: {
           name: 'error',
           message: 'Invalid JWT token',
+        },
+      },
+      exampleErrorUserNonexistent: {
+        summary: 'nonexistent user',
+        value: {
+          name: 'error',
+          message: 'User does not exists',
+        },
+      },
+      exampleErrorEmailTaken: {
+        summary: 'email already registered',
+        value: {
+          name: 'error',
+          message: 'Email already in user',
+        },
+      },
+      exampleErrorWrongPassword: {
+        summary: 'wrong password',
+        value: {
+          name: 'error',
+          message: 'Current password does not match',
+        },
+      },
+      exampleErrorMissingCurrentPassword: {
+        summary: 'missing current password',
+        value: {
+          name: 'error',
+          message: 'The current password is required to update for a new one',
         },
       },
       exampleErrorPastDate: {
@@ -777,13 +1060,6 @@ const apiConfig = {
         value: {
           name: 'error',
           message: 'User token does not exists',
-        },
-      },
-      exampleErrorUserNonexistent: {
-        summary: 'nonexistent user',
-        value: {
-          name: 'error',
-          message: 'User does not exists',
         },
       },
     },
@@ -831,6 +1107,34 @@ const apiConfig = {
           format: 'email',
         },
         password: {
+          type: 'string',
+          format: 'password',
+          minLength: 6,
+        },
+      },
+    },
+    userUpdateSchema: {
+      type: 'object',
+      required: ['name', 'email'],
+      properties: {
+        name: {
+          type: 'string',
+        },
+        email: {
+          type: 'string',
+          format: 'email',
+        },
+        old_password: {
+          type: 'string',
+          format: 'password',
+          minLength: 6,
+        },
+        password: {
+          type: 'string',
+          format: 'password',
+          minLength: 6,
+        },
+        password_confirmation: {
           type: 'string',
           format: 'password',
           minLength: 6,
@@ -914,6 +1218,23 @@ const apiConfig = {
       },
     },
     providerDailyAvailability: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          hour: {
+            type: 'integer',
+            format: 'int32',
+            minimum: 8,
+            maximum: 17,
+          },
+          available: {
+            type: 'boolean',
+          },
+        },
+      },
+    },
+    providerMonthlyAvailability: {
       type: 'array',
       items: {
         type: 'object',

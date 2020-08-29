@@ -222,6 +222,38 @@ const apiConfig = {
         },
       },
     },
+    '/providers/{provider_id}/day-availability': {
+      get: {
+        tags: ['Providers'],
+        summary: 'Returns provider daily availability',
+        description:
+          'The client-side can use this request to list all available daily time to create new appointments. This request requires user authentication.',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            $ref: '#/components/parameters/paramProviderId',
+          },
+          {
+            $ref: '#/components/parameters/paramDay',
+          },
+          {
+            $ref: '#/components/parameters/paramMonth',
+          },
+          {
+            $ref: '#/components/parameters/paramYear',
+          },
+        ],
+        responses: {
+          '200': {
+            $ref:
+              '#/components/responses/responseSuccessfulGetProviderDailyAvailability',
+          },
+          '401': {
+            $ref: '#/components/responses/ResponseErrorToken',
+          },
+        },
+      },
+    },
     '/password/forgot': {
       post: {
         tags: ['Password'],
@@ -377,6 +409,16 @@ const apiConfig = {
       },
     },
     parameters: {
+      paramProviderId: {
+        name: 'provider_id',
+        in: 'path',
+        required: true,
+        description: 'Path param for the provider id',
+        schema: {
+          type: 'string',
+          format: 'uuid',
+        },
+      },
       paramDay: {
         name: 'day',
         in: 'query',
@@ -543,6 +585,59 @@ const apiConfig = {
                 summary: 'without appointments on the day',
               },
             },
+          },
+        },
+      },
+      responseSuccessfulGetProviderDailyAvailability: {
+        description:
+          'Successful request. Returns an array object with the daily availability for to given provider.',
+        content: {
+          'json/application': {
+            schema: {
+              $ref: '#/definitions/providerDailyAvailability',
+            },
+            example: [
+              {
+                hour: 8,
+                available: false,
+              },
+              {
+                hour: 9,
+                available: false,
+              },
+              {
+                hour: 10,
+                available: false,
+              },
+              {
+                hour: 11,
+                available: false,
+              },
+              {
+                hour: 12,
+                available: false,
+              },
+              {
+                hour: 13,
+                available: true,
+              },
+              {
+                hour: 14,
+                available: false,
+              },
+              {
+                hour: 15,
+                available: true,
+              },
+              {
+                hour: 16,
+                available: true,
+              },
+              {
+                hour: 17,
+                available: false,
+              },
+            ],
           },
         },
       },
@@ -815,6 +910,23 @@ const apiConfig = {
         },
         user: {
           $ref: '#/definitions/userResponseScheme',
+        },
+      },
+    },
+    providerDailyAvailability: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          day: {
+            type: 'integer',
+            format: 'int32',
+            minimum: 1,
+            maximum: 31,
+          },
+          available: {
+            type: 'boolean',
+          },
         },
       },
     },

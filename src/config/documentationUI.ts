@@ -222,6 +222,86 @@ const apiConfig = {
         },
       },
     },
+    '/password/forgot': {
+      post: {
+        tags: ['Password'],
+        summary: 'Request a new password',
+        description: 'Can be used by users to request new password.',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['email'],
+                properties: {
+                  email: {
+                    type: 'string',
+                    format: 'email',
+                  },
+                },
+              },
+              example: {
+                email: 'paul_smith@email.com',
+              },
+            },
+          },
+        },
+        responses: {
+          '204': {
+            description:
+              'Successful request with empty response body. An email with the reset password token was send to the user.',
+          },
+          '400': {
+            description:
+              'Bad request. The email provided was not found in the database.',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/definitions/globalErrorScheme',
+                },
+                example: {
+                  status: 'error',
+                  message: 'User does not exists',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/password/reset': {
+      post: {
+        tags: ['Password'],
+        summary: 'Creates a new password',
+        description:
+          "Request for users create a new password. It's necessary to provide the reset password token, which is receive in the user's email.",
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/definitions/passwordResetSchema',
+              },
+              example: {
+                password: '123123',
+                password_confirmation: '123123',
+                token: '06e56de4-85e4-44d8-9146-a34ca1045d1e',
+              },
+            },
+          },
+        },
+        responses: {
+          '204': {
+            description:
+              'Successful request with empty response body. The users password was updated',
+          },
+          '400': {
+            $ref: '#/components/responses/responseErrorResetingPassword',
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -353,50 +433,6 @@ const apiConfig = {
           },
         },
       },
-      ResponseErrorToken: {
-        description:
-          'Unauthorized error. Happens when the bearer token is not provided or the a invalid one was used instead',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/definitions/globalErrorScheme',
-            },
-            examples: {
-              missingToken: {
-                $ref: '#/components/examples/missingTokenBodyExample',
-              },
-              invalidToken: {
-                $ref: '#/components/examples/invalidTokenBodyExample',
-              },
-            },
-          },
-        },
-      },
-      responseErrorCreatingAppointment: {
-        description:
-          'Bad Request. It can happen weather a user tries to create an appointment in the past, an appointment outside office hours, when there is another appointment already schedule at the same time, or if a user (which is also a provider in this case) tries to create an appointment with him/her self',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/definitions/globalErrorScheme',
-            },
-            examples: {
-              pastDate: {
-                $ref: '#/components/examples/exampleErrorPastDate',
-              },
-              outsideOfficeHours: {
-                $ref: '#/components/examples/exampleErrorOutsideOfficeHours',
-              },
-              alreadyBooked: {
-                $ref: '#/components/examples/exampleErrorAlreadyBooked',
-              },
-              withSelf: {
-                $ref: '#/components/examples/exampleErroWithSelf',
-              },
-            },
-          },
-        },
-      },
       responseSuccessfulAuthentication: {
         description: 'Successful authentication response',
         content: {
@@ -524,6 +560,72 @@ const apiConfig = {
           },
         },
       },
+      responseErrorCreatingAppointment: {
+        description:
+          'Bad Request. It can happen weather a user tries to create an appointment in the past, an appointment outside office hours, when there is another appointment already schedule at the same time, or if a user (which is also a provider in this case) tries to create an appointment with him/her self',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/globalErrorScheme',
+            },
+            examples: {
+              pastDate: {
+                $ref: '#/components/examples/exampleErrorPastDate',
+              },
+              outsideOfficeHours: {
+                $ref: '#/components/examples/exampleErrorOutsideOfficeHours',
+              },
+              alreadyBooked: {
+                $ref: '#/components/examples/exampleErrorAlreadyBooked',
+              },
+              withSelf: {
+                $ref: '#/components/examples/exampleErroWithSelf',
+              },
+            },
+          },
+        },
+      },
+      responseErrorResetingPassword: {
+        description:
+          'Bad request. The token may be expired or nonexistent. This error can also occur if the system cannot find a user id for the provided token',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/globalErrorScheme',
+            },
+            examples: {
+              expiredToken: {
+                $ref: '#/components/examples/exampleErrorUserTokenExpired',
+              },
+              tokenNonexistent: {
+                $ref: '#/components/examples/exampleErrorUserTokenNonexistent',
+              },
+              userNonexistent: {
+                $ref: '#/components/examples/exampleErrorUserNonexistent',
+              },
+            },
+          },
+        },
+      },
+      ResponseErrorToken: {
+        description:
+          'Unauthorized error. Happens when the bearer token is not provided or the a invalid one was used instead',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/definitions/globalErrorScheme',
+            },
+            examples: {
+              missingToken: {
+                $ref: '#/components/examples/missingTokenBodyExample',
+              },
+              invalidToken: {
+                $ref: '#/components/examples/invalidTokenBodyExample',
+              },
+            },
+          },
+        },
+      },
     },
     examples: {
       missingTokenBodyExample: {
@@ -566,6 +668,27 @@ const apiConfig = {
         value: {
           name: 'error',
           message: "You can't create an appointment with yourself",
+        },
+      },
+      exampleErrorUserTokenExpired: {
+        summary: 'expired token',
+        value: {
+          name: 'error',
+          message: 'Token expired',
+        },
+      },
+      exampleErrorUserTokenNonexistent: {
+        summary: 'nonexistent token',
+        value: {
+          name: 'error',
+          message: 'User token does not exists',
+        },
+      },
+      exampleErrorUserNonexistent: {
+        summary: 'nonexistent user',
+        value: {
+          name: 'error',
+          message: 'User does not exists',
         },
       },
     },
@@ -699,6 +822,25 @@ const apiConfig = {
       type: 'array',
       items: {
         $ref: '#/definitions/userResponseScheme',
+      },
+    },
+    passwordResetSchema: {
+      type: 'object',
+      properties: {
+        password: {
+          type: 'string',
+          format: 'password',
+          min: 6,
+        },
+        password_confirmation: {
+          type: 'string',
+          format: 'password',
+          min: 6,
+        },
+        token: {
+          type: 'string',
+          format: 'uuid',
+        },
       },
     },
     globalErrorScheme: {

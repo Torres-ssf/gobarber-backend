@@ -1,7 +1,8 @@
 import ListProviderAppointmentsService from '@modules/appointments/services/ListProviderAppointmentsService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { classToClass } from 'class-transformer';
+import { classToClass, plainToClass } from 'class-transformer';
+import User from '@modules/users/infra/typeorm/entities/User';
 
 export default class ProviderAppointmentsController {
   public async index(req: Request, res: Response): Promise<Response> {
@@ -19,6 +20,13 @@ export default class ProviderAppointmentsController {
       year: Number(year),
     });
 
-    return res.status(200).json(classToClass(appointments));
+    const unexposedInformation = appointments.map(appointment => {
+      return {
+        ...appointment,
+        user: classToClass(plainToClass(User, appointment.user)),
+      };
+    });
+
+    return res.status(200).json(unexposedInformation);
   }
 }

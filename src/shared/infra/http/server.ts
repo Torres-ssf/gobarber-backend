@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 
 import express, { json, Request, Response, NextFunction } from 'express';
 import { errors } from 'celebrate';
@@ -8,6 +9,7 @@ import 'express-async-errors';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import routes from '@shared/infra/http/routes';
+import swaggerDoc from '@config/documentationUI';
 import rateLimiter from './middlewares/rateLimiter';
 
 import '@shared/infra/typeorm';
@@ -24,6 +26,8 @@ app.use(rateLimiter);
 app.use('/files', express.static(uploadConfig.uploadFolder));
 
 app.use(routes);
+
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use(errors());
 

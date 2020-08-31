@@ -27,7 +27,7 @@
 
 ## About The Project
 
-Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp.
+Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The app is hosted on the web and can be use through the [interative API documentation](https://gobarberapi.torres-ssf.com/api/).
 
 ## API Documentation
 
@@ -165,12 +165,20 @@ yarn typeorm migration:run
 
 7. Both `APP_WEB_URL` and `APP_API_URL` are already defined at the `.env.example` file. These URLs are ready to be used in development stage for both the web and mobile versions.
 
-8. This uses Ethereal to test email services in the development stage. But it alsos supports AWS SES. By default `MAIL_PROVIDER` is already configured to use Ethereal, in order to use AWS SES you will need to change the variable value.
+8. The app uses Ethereal to test email services in the development stage. But it alsos supports AWS SES. By default `MAIL_PROVIDER` is already configured to use Ethereal, in order to use AWS SES you will need to change the variable value.
 ```
 MAIL_PROVIDER=ses
 ```
 
-9. All other AWS environments variables should also be assigned with your information and credentials(When using AWS SES only).
+9. In the development stage, the application uses the `tmp/uploads` directory to store files sent to the system (user's avatar). A storage provider was also implemented  to make use of Amazon S3, Simple Storage Service, for the production stage. To use S3, you will need to: 
+  - Change the value of the environment variable `STORAGE_DRIVER` from `disk` to `s3`.
+  - Assing the bucket name to `AWS_S3_BUCKET_NAME`.
+  ```
+  STORAGE_DRIVER=s3
+  AWS_S3_BUCKET_NAME=bucket-name
+  ```
+
+10. All other AWS environments variables should also be assigned with your information and credentials(When using AWS SES and S3 only).
 
 ### Usage
 
@@ -184,6 +192,12 @@ Script for development stage. If all the installation section was properly made,
 ```
 Server started on port 3333!
 ```
+
+```
+yarn build
+```
+
+Script for productions stage.
 
 ```
 yarn typeorm

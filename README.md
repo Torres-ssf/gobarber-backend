@@ -15,7 +15,7 @@
   <p align="center">
    The server-side application for the GoBarber App.
     <br />
-    <a href="#">API Documentation (SOON)</a>
+    <a href="https://gobarberapi.torres-ssf.com/api/">Interactive API</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Report Bug</a>
     ·
@@ -31,7 +31,25 @@ Sever-side application for GoBarber, an app for service providers, such as Barbe
 
 ## API Documentation
 
-Click [ here ](https://github.com/Torres-ssf/gobarber-backend/) to explore the API documentation(SOON).
+Click [ here ](https://gobarberapi.torres-ssf.com/api/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Most requests require user authentication, and since this application uses the bearer's token to grant authorization to users, you will need to create a session before using authenticated requests. To do this, you can simply:
+
+1. Click on the post `users` request to expand it.
+
+2. Click on the `Try it out` button.
+
+3. Insert your credentials and then click on the `Execute` button.
+
+4. You should receive an 200 response and that means that your users was successfully created.
+
+5. Now click in the post `sessions` request to exapand it.
+
+6. Click on the `Try it out` button and then provide the user/email combination from the user you just created
+
+7. You should receive a successful response with the authorization token.
+
+8. Now you can copy the token value and then click the `Authorize` button that lives almost at the top of the page. Paste the value and click on `Authorize` again.
+
+9. Now you are authenticated and can test all requests from the API.
 
 ### Built With
 

@@ -9,11 +9,11 @@ interface IMailConfig {
 }
 
 export default {
-  driver: process.env.MAIL_PROVIDER || 'ethereal',
+  driver: process.env.MAIL_DRIVER || 'ethereal',
   defaults: {
     from: {
-      email: process.env.AWS_EMAIL_IDENTITIES_FROM_NAME,
-      name: process.env.AWS_EMAIL_IDENTITIES_FROM_EMAIL,
+      email: process.env.AWS_EMAIL_IDENTITIES_FROM_EMAIL,
+      name: 'GoBarber Team',
     },
   },
 } as IMailConfig;

@@ -11,7 +11,7 @@ import ensuredAuthenticated from '@modules/users/infra/http/middlewares/ensuredA
 const userRoutes = Router();
 const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
-const upload = multer(uploadConfig);
+const upload = multer(uploadConfig.multer);
 
 userRoutes.post(
   '/',
@@ -19,7 +19,7 @@ userRoutes.post(
     [Segments.BODY]: {
       name: Joi.string().required(),
       email: Joi.string().email().required(),
-      password: Joi.string().required(),
+      password: Joi.string().min(6),
     },
   }),
   usersController.create,

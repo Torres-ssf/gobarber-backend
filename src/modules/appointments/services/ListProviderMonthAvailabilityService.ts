@@ -53,7 +53,8 @@ class ListProviderMonthAvailabilityService {
       return {
         day,
         available:
-          isBefore(new Date(), compareDate) && appointmentsInDay.length < 10,
+          isBefore(new Date(Date.now()), compareDate) &&
+          appointmentsInDay.length < 10,
       };
     });
 

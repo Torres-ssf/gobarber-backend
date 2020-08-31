@@ -2,20 +2,24 @@ import 'reflect-metadata';
 import CreateAppointment from '@modules/appointments/services/CreateAppointmentService';
 import FakeAppointmentRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import FakeNotificationRepository from '@modules/notifications/repositories/fakes/FakeNotificationRepository';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import AppError from '@shared/errors/AppError';
 
 describe('CreateAppointment', () => {
   let fakeAppointment: FakeAppointmentRepository;
   let fakeNotificationRepository: FakeNotificationRepository;
+  let fakeCacheProvider: FakeCacheProvider;
   let createAppointment: CreateAppointment;
 
   beforeEach(() => {
     fakeAppointment = new FakeAppointmentRepository();
     fakeNotificationRepository = new FakeNotificationRepository();
+    fakeCacheProvider = new FakeCacheProvider();
 
     createAppointment = new CreateAppointment(
       fakeAppointment,
       fakeNotificationRepository,
+      fakeCacheProvider,
     );
   });
 

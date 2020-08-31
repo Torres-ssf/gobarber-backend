@@ -7,6 +7,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import INotificationRepository from '@modules/notifications/repositories/INotificationRepository';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface IRequest {
   provider_id: string;
@@ -20,14 +21,19 @@ class CreateAppointmentService {
 
   private notificationRepository: INotificationRepository;
 
+  private cacheProvider: ICacheProvider;
+
   constructor(
     @inject('AppointmentsRepository')
     appointmentsRepository: IAppointmentsRepository,
     @inject('NotificationRepository')
     notificationRepository: INotificationRepository,
+    @inject('CacheProvider')
+    cacheProvider: ICacheProvider,
   ) {
     this.appointmentsRepository = appointmentsRepository;
     this.notificationRepository = notificationRepository;
+    this.cacheProvider = cacheProvider;
   }
 
   async execute({
@@ -67,6 +73,13 @@ class CreateAppointmentService {
       user_id,
       date: appointmentDate,
     });
+
+    this.cacheProvider.invalidate(
+      `provider-appointments:${provider_id}:${format(
+        appointmentDate,
+        'yyyy-M-d',
+      )}`,
+    );
 
     const formattedDate = format(appointmentDate, "dd/MM/yyyy 'at' HH:mm");
 

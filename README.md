@@ -184,7 +184,7 @@ MAIL_PROVIDER=ses
 
 App Scripts:
 
-- ```
+-```
 yarn dev:server
 ```
 

@@ -100,6 +100,7 @@ To get a local copy up and running follow these simple example steps.
 - NPM
 - PostgreSQL
 - MongoDB
+- Redis
 
 ### Installation
 
@@ -136,7 +137,7 @@ yarn
     - Assign the port number that was configured in your system to the `port` object (default is `5432`).  
     - Assign your postgres username to the `username` object.
     - Assign your postgres password to the `password` object.
-    - Assign an existent postgres database name to the `database` object.
+    - Create a new postgres database and assign the name to the `database` object.
 
   - Setting up MongoDB
     ```json
@@ -147,7 +148,7 @@ yarn
     - Assign a name of your preference for the database at the `database` object. The new database will be created automatically.
 
   - Setting up Redis
-    - Redis is already setup in the .env.example file. You just need to have it running into your system.
+    - Redis is already setup in the .env.example file with de default port and no password. This should work with it's default settings. If you have a different configuration at your system you will need to make changes on the redis environment variables.
 
 5. Run migrate command to create all migrations.
 ```
@@ -156,7 +157,7 @@ yarn typeorm migration:run
 
 6. This applications uses `jsonwebtokenNow` to grant an access token to logged users. 
   - You will need to provide a MD5 hash from an encoded string from your choice. You can generate the hash [here](https://www.md5hashgenerator.com/). 
-  - With the hash in hands, we are ready to setup the environment variable. Rename the `.env.example` to `.env`.
+  - With the hash in hands, we are ready to setup the environment variables. Make a copy of the `.env.example` to and name it `.env`.
   - Assign your generated hash to the variable
   ```
   APP_SECRET=generatedMD5HashHere

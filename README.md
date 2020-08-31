@@ -75,7 +75,11 @@ Back-End(server)
 - [TSyringe](https://www.npmjs.com/package/tsyringe)
 - [class-transformer](https://www.npmjs.com/package/class-transformer)
 - [date-fns](https://www.npmjs.com/package/date-fns)
+- [Mime](https://www.npmjs.com/package/mime)
+- [ioredis](https://www.npmjs.com/package/ioredis)
+- [node-rate-limiter-flexible](https://www.npmjs.com/package/rate-limiter-flexible)
 - [aws-sdk](https://www.npmjs.com/package/aws-sdk)
+- [Swagger UI Express](https://www.npmjs.com/package/swagger-ui-express)
 
 ```sh
 Testing Frameworks

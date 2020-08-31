@@ -184,26 +184,23 @@ MAIL_PROVIDER=ses
 
 App Scripts:
 
--```
+```
 yarn dev:server
 ```
 
-Script for development stage. If all the installation section was properly made, an output message will appear at the terminal.
-```
-Server started on port 3333!
-```
+- Script for development stage. If all the installation section was properly made, an output message will appear at the terminal: `Server started on port 3333!`
 
 ```
 yarn build
 ```
 
-Script for productions stage.
+- Script for productions stage.
 
 ```
 yarn typeorm
 ```
 
-Script design to do typeorm task, like creating and revert migrations.
+- Script design to do typeorm task, like creating and revert migrations.
 
 ### Run tests
 

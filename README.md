@@ -124,7 +124,7 @@ yarn
 
 4. Set up databases
   This project uses `Postgres`, `MongoDb` and `Redis`. You will need to have all 3 running into your system. I recommend using [Docker](https://www.docker.com/) for simplicity.
-  - Make a copy of the `example.ormconfig.json` file and rename it removing the ```example.```.
+  - Make a copy of the `ormconfig.json.example` file and remove the ```.example```.
   - Assign values according with the postgres configuration in your system.
 
   - Setting up PostgreSQL

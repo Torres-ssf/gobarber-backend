@@ -27,19 +27,19 @@
 
 ## About The Project
 
-Sever-side application for GoBarber, an app for service providers, such as Barbers, to control customer schedules, received via the Mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The app is hosted on the web and can be use through the [interative API documentation](https://gobarberapi.torres-ssf.com/api/).
+Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules, received via the mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The application is hosted online and can be used/tested through the [interative API documentation](https://gobarberapi.torres-ssf.com/api/).
 
 ## API Documentation
 
-Click [ here ](https://gobarberapi.torres-ssf.com/api/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Most requests require user authentication, and since this application uses the bearer's token to grant authorization to users, you will need to create a session before using authenticated requests. To do this, you can simply:
+Click [ here ](https://gobarberapi.torres-ssf.com/api/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Most requests require user authentication and, as this application uses the bearer's token to grant authorization to users, you will need to create a session before using authenticated requests. To do this, you can simply:
 
 1. Click on the post `users` request to expand it.
 
 2. Click on the `Try it out` button.
 
-3. Insert your credentials and then click on the `Execute` button.
+3. Insert your credentials to create a new user and then click on the `Execute` button.
 
-4. You should receive an 200 response and that means that your users was successfully created.
+4. You should receive an 200 response and that means that your user was successfully created.
 
 5. Now click in the post `sessions` request to exapand it.
 
@@ -47,7 +47,7 @@ Click [ here ](https://gobarberapi.torres-ssf.com/api/) to explore the interacti
 
 7. You should receive a successful response with the authorization token.
 
-8. Now you can copy the token value and then click the `Authorize` button that lives almost at the top of the page. Paste the value and click on `Authorize` again.
+8. Now copy the token value and click on the `Authorize` button that lives almost at the top of the page. Paste the value and click on `Authorize` again.
 
 9. Now you are authenticated and can test all requests from the API.
 
@@ -231,7 +231,7 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Built this project was only possible because of the skills I aquired during the [GoStack Bootcamp](https://rocketseat.com.br/).
+- This project was created during the [GoStack Bootcamp](https://rocketseat.com.br/). I am very grateful to them for the knowledge and skills acquired here.
 
 ## 📝 License
 

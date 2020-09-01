@@ -15,7 +15,7 @@
   <p align="center">
    The server-side application for the GoBarber App.
     <br />
-    <a href="https://gobarberapi.torres-ssf.com/api/">Interactive API</a>
+    <a href="https://api.gobarber.torres-ssf.com/">Interactive API</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Report Bug</a>
     ·
@@ -27,11 +27,11 @@
 
 ## About The Project
 
-Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules, received via the mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The application is hosted online and can be used/tested through the [interative API documentation](https://gobarberapi.torres-ssf.com/api/).
+Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules, received via the mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The application is hosted online and can be used/tested through the [interative API documentation](https://api.gobarber.torres-ssf.com/documentation/).
 
 ## API Documentation
 
-Click [ here ](https://gobarberapi.torres-ssf.com/api/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Most requests require user authentication and, as this application uses the bearer's token to grant authorization to users, you will need to create a session before using authenticated requests. To do this, you can simply:
+Click [ here ](https://api.gobarber.torres-ssf.com/documentation/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Most requests require user authentication and, as this application uses the bearer's token to grant authorization to users, you will need to create a session before using authenticated requests. To do this, you can simply:
 
 1. Click on the post `users` request to expand it.
 
@@ -78,6 +78,7 @@ Back-End(server)
 - [Mime](https://www.npmjs.com/package/mime)
 - [ioredis](https://www.npmjs.com/package/ioredis)
 - [node-rate-limiter-flexible](https://www.npmjs.com/package/rate-limiter-flexible)
+- [uuid](https://www.npmjs.com/package/uuid)
 - [aws-sdk](https://www.npmjs.com/package/aws-sdk)
 - [Swagger UI Express](https://www.npmjs.com/package/swagger-ui-express)
 

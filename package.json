@@ -34,7 +34,7 @@
     "swagger-ui-express": "^4.1.4",
     "tsyringe": "^4.3.0",
     "typeorm": "^0.2.25",
-    "uuidv4": "^6.0.8"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
@@ -57,6 +57,7 @@
     "@types/nodemailer": "^6.4.0",
     "@types/redis": "^2.8.25",
     "@types/swagger-ui-express": "^4.1.2",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "babel-plugin-module-resolver": "^4.0.0",

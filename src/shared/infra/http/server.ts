@@ -27,7 +27,7 @@ app.use('/files', express.static(uploadConfig.uploadFolder));
 
 app.use(routes);
 
-app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use(errors());
 

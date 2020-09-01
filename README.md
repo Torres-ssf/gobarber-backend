@@ -15,7 +15,7 @@
   <p align="center">
    The server-side application for the GoBarber App.
     <br />
-    <a href="https://api.gobarber.torres-ssf.com/">Interactive API</a>
+    <a href="https://api.gobarber.torres-ssf.com/documentation/">Interactive API</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Report Bug</a>
     ·

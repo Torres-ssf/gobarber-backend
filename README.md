@@ -27,7 +27,7 @@
 
 ## About The Project
 
-Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules, received via the mobile application. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The application is hosted online and can be used/tested through the [interative API documentation](https://api.gobarber.torres-ssf.com/documentation/).
+Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The application is hosted online and can be used/tested through the [interative API documentation](https://api.gobarber.torres-ssf.com/documentation/).
 
 ## API Documentation
 

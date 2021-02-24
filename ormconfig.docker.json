@@ -8,10 +8,10 @@
     "password": "gobarber",
     "database": "gobarber_db",
     "entities": [
-      "./src/modules/**/infra/typeorm/entities/*.ts"
+      "./src/modules/**/infra/typeorm/entities/*"
     ],
     "migrations": [
-      "./src/shared/infra/typeorm/migrations/*.ts"
+      "./src/shared/infra/typeorm/migrations/*"
     ],
     "cli": {
       "migrationsDir": "./src/shared/infra/typeorm/migrations"
@@ -25,7 +25,7 @@
     "database": "gobarber_mongo",
     "useUnifiedTopology": true,
     "entities": [
-      "./src/modules/**/infra/typeorm/schemas/*.ts"
+      "./src/modules/**/infra/typeorm/schemas/*"
     ]
   }
 ]

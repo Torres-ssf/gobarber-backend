@@ -1,9 +1,9 @@
 import { container } from 'tsyringe';
 
 import INotificationRepository from './repositories/INotificationRepository';
-import NotificationRepository from './infra/typeorm/repositories/NotificationRepository';
+import FakeNotificationRepository from './repositories/fakes/FakeNotificationRepository';
 
 container.registerSingleton<INotificationRepository>(
   'NotificationRepository',
-  NotificationRepository,
+  FakeNotificationRepository,
 );

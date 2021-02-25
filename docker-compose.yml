@@ -6,7 +6,6 @@ services:
       - "3333:3333"
     depends_on: 
       - postgres
-      - mongodb
       - redis
     networks:
      - gobarber-network
@@ -20,13 +19,6 @@ services:
       POSTGRES_DB: gobarber_db
     ports:
       - "5442:5432"
-    networks:
-     - gobarber-network
-  mongodb:
-    image: mongo
-    container_name: mongo-gobarber
-    ports:
-      - "27027:27017"
     networks:
      - gobarber-network
   redis:

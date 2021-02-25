@@ -20,7 +20,7 @@
   {
     "name": "mongo",
     "type": "mongodb",
-    "host": "localhost",
+    "host": "mongo",
     "port": 27017,
     "database": "database name",
     "useUnifiedTopology": true,

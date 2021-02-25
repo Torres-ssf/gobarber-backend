@@ -1,0 +1,35 @@
+version: "3.8"      
+services:
+  app:
+    build: .
+    ports:
+      - "3333:3333"
+    depends_on: 
+      - postgres
+      - redis
+    networks:
+     - gobarber-network
+  postgres:
+    image: postgres
+    container_name: postgres-gobarber
+    restart: always
+    environment:
+      POSTGRES_USER: gobarber
+      POSTGRES_PASSWORD: gobarber
+      POSTGRES_DB: gobarber_db
+    ports:
+      - "5442:5432"
+    networks:
+     - gobarber-network
+  redis:
+    image: redis:alpine
+    container_name: redis-gobarber
+    ports:
+      - "6389:6379"
+    networks:
+     - gobarber-network
+
+networks:
+  gobarber-network:
+    driver: bridge
+

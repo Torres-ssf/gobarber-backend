@@ -15,7 +15,7 @@
   <p align="center">
    The server-side application for the GoBarber App.
     <br />
-    <a href="https://api.gobarber.torres-ssf.com/documentation/">Interactive API</a>
+    <a href="https://gobarber-api-torres.herokuapp.com/documentation/">Interactive API</a>
     ·
     <a href="https://github.com/Torres-ssf/gobarber-backend/issues">Report Bug</a>
     ·
@@ -27,11 +27,11 @@
 
 ## About The Project
 
-Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules. This application was designed during the [GoStack](https://rocketseat.com.br/) bootcamp. The application is hosted online and can be used/tested through the [interative API documentation](https://api.gobarber.torres-ssf.com/documentation/).
+Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules. The application is deployed on Heroku and can be tested through the [Interactive API documentation](https://gobarber-api-torres.herokuapp.com/documentation/).
 
 ## API Documentation
 
-Click [ here ](https://api.gobarber.torres-ssf.com/documentation/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Most requests require user authentication and, as this application uses the bearer's token to grant authorization to users, you will need to create a session before using authenticated requests. To do this, you can simply:
+Click [here](https://gobarber-api-torres.herokuapp.com/documentation/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Many requests require user authentication and, as this application uses the JWT to grant authorization to users, you will need to create a session before using authenticated requests. To do so, you can simply:
 
 1. Click on the post `users` request to expand it.
 
@@ -61,10 +61,10 @@ Back-End(server)
 
 - Node
 - Typescript
+- Docker
 - [Express](https://www.npmjs.com/package/expresshttps://www.npmjs.com/package/express)
 - [TypeORM](https://www.npmjs.com/package/typeorm)
 - [PostgreSQL](https://www.npmjs.com/package/pg)
-- [MongoDB](https://www.npmjs.com/package/mongodb)
 - [Redis](https://www.npmjs.com/package/redis)
 - [Nodemailer](https://www.npmjs.com/package/nodemailer)
 - [Bcryptjs](https://www.npmjs.com/package/bcryptjs)
@@ -93,15 +93,16 @@ Testing Frameworks
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+This application is dockerized, if have `docker` and `docker-compose` on you system it's pretty straightforward to start using it. To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
 - Node
 - NPM
-- PostgreSQL
-- MongoDB
-- Redis
+- Yarn
+- Docker
+- PostgreSQL (not needed if you have docker)
+- Redis (not needed if you have docker)
 
 ### Installation
 
@@ -123,85 +124,46 @@ cd gobarber-backend/
 yarn
 ```
 
-4. Set up databases
-  This project uses `Postgres`, `MongoDb` and `Redis`. You will need to have all 3 running into your system. I recommend using [Docker](https://www.docker.com/) for simplicity.
-  - Make a copy of the `ormconfig.json.example` file and remove the ```.example```.
-  - Assign values according with the postgres configuration in your system.
+4. Run the app
 
-  - Setting up PostgreSQL
-    ```json
-    "port": 5432,
-      "username": "postgres username",
-      "password": "postgres password",
-      "database": "database name",
-    ```
-    - Assign the port number that was configured in your system to the `port` object (default is `5432`).  
-    - Assign your postgres username to the `username` object.
-    - Assign your postgres password to the `password` object.
-    - Create a new postgres database and assign the name to the `database` object.
-
-  - Setting up MongoDB
-    ```json
-    "port": 27017,
-    "database": "gobarber",
-    ```
-    - Assign the MongoDB port number that was configured in your system to the `port` object (default is `27027`).
-    - Assign a name of your preference for the database at the `database` object. The new database will be created automatically.
-
-  - Setting up Redis
-    - Redis is already setup in the .env.example file with de default port and no password. This should work with it's default settings. If you have a different configuration at your system you will need to make changes on the redis environment variables.
-
-5. Run migrate command to create all migrations.
-```
-yarn typeorm migration:run
-```
-
-6. This applications uses `jsonwebtokenNow` to grant an access token to logged users. 
-  - You will need to provide a MD5 hash from an encoded string from your choice. You can generate the hash [here](https://www.md5hashgenerator.com/). 
-  - With the hash in hands, we are ready to setup the environment variables. Make a copy of the `.env.example` to and name it `.env`.
-  - Assign your generated hash to the variable
-  ```
-  APP_SECRET=generatedMD5HashHere
-  ```
-
-7. Both `APP_WEB_URL` and `APP_API_URL` are already defined at the `.env.example` file. These URLs are ready to be used in development stage for both the web and mobile versions.
-
-8. The app uses Ethereal to test email services in the development stage. But it alsos supports AWS SES. By default `MAIL_PROVIDER` is already configured to use Ethereal, in order to use AWS SES you will need to change the variable value.
-```
-MAIL_PROVIDER=ses
-```
-
-9. In the development stage, the application uses the `tmp/uploads` directory to store files sent to the system (user's avatar). A storage provider was also implemented  to make use of Amazon S3, Simple Storage Service, for the production stage. To use S3, you will need to: 
-  - Change the value of the environment variable `STORAGE_DRIVER` from `disk` to `s3`.
-  - Assing the bucket name to `AWS_S3_BUCKET_NAME`.
-  ```
-  STORAGE_DRIVER=s3
-  AWS_S3_BUCKET_NAME=bucket-name
-  ```
-
-10. All other AWS environments variables should also be assigned with your information and credentials(When using AWS SES and S3 only).
+  This project uses a docker file to run the app, a Postgres contaner and a Redis container in a shared network. By running `docker-compose up` no additional configuration is required. I recommend using [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/) for simplicity. However, if you want to run without Docker, you will need both Postgres and Redis running at your system. Additional steps are also required.
+  - Make a copy of both `.env.example` and `ormconfig.example.json` files.
+  - Rename `.env.example` copy to `.env`.
+  - Rename `ormconfig.example.json` copy to `ormconfig.json`
+  - Edit `ormconfig.json` file with your own postgres credentials, remember to also assign an existent database.
+  - Redis host and port can be set up at the `.env` file. No password is required.
+  - Run the migrations with the command: `yarn typeorm migration:run`.
 
 ### Usage
 
-App Scripts:
+If you have `docker` and `docker-compose` at your system:
+
+```
+docker-compose up
+```
+
+To remove docker containers after using the app, run:
+
+```
+docker-compose down
+```
+
+##### App Scripts:
 
 ```
 yarn dev:server
 ```
-
-- Script for development stage. If all the installation section was properly made, an output message will appear at the terminal: `Server started on port 3333!`
-
-```
-yarn build
-```
-
-- Script for productions stage.
+Script for development stage. An output message should appear on the terminal: `Server started on port 3333!`
 
 ```
 yarn typeorm
 ```
+Used for operations related to Typeorm, like creating migrations.
 
-- Script design to do typeorm task, like creating and revert migrations.
+```
+yarn build
+```
+Transpile Typescript code into Javascript inside the dist directory.
 
 ### Run tests
 
@@ -226,10 +188,6 @@ Feel free to check the [issues page](https://github.com/Torres-ssf/gobarber-back
 ## Show your support
 
 Give a ⭐️ if you like this project!
-
-## Acknowledgments
-
-- This project was created during the [GoStack Bootcamp](https://rocketseat.com.br/). I am very grateful to them for the knowledge and skills acquired here.
 
 ## 📝 License
 

@@ -46,6 +46,7 @@ describe('ListProvidersService', () => {
       name: 'User',
       email: 'user@email.com',
       password: '123456',
+      provider: false,
     });
 
     await listProvidersService.execute({
@@ -69,18 +70,21 @@ describe('ListProvidersService', () => {
       name: 'Paul',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     const user1 = await fakeUsersRepository.create({
       name: 'John',
       email: 'john@email.com',
       password: '123456',
+      provider: false,
     });
 
     const user2 = await fakeUsersRepository.create({
       name: 'Gustav',
       email: 'gustav@email.com',
       password: '123456',
+      provider: false,
     });
 
     const providers = await listProvidersService.execute({

@@ -35,6 +35,7 @@ describe('AuthenticateUser', () => {
       name: 'John',
       email: 'john@mail.com',
       password: '123456',
+      provider: false,
     });
 
     const { email, password } = user;
@@ -58,6 +59,7 @@ describe('AuthenticateUser', () => {
       name: 'John',
       email: 'john@mail.com',
       password: '123456',
+      provider: false,
     });
 
     const { email } = user;

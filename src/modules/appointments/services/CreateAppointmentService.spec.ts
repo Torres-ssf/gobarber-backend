@@ -44,6 +44,30 @@ describe('CreateAppointment', () => {
     );
   });
 
+  it('should not be able to create an appointment if given provider id belongs to a user who is not a provider', async () => {
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      return new Date(2020, 1, 1, 9).getTime();
+    });
+
+    const user = await fakeUsersRepository.create({
+      name: 'John',
+      email: 'john@email.com',
+      password: '123456',
+      provider: false,
+    });
+
+    await expect(
+      createAppointment.execute({
+        provider_id: user.id,
+        user_id: 'user01',
+        date: new Date(2020, 4, 10, 10),
+      }),
+    ).rejects.toHaveProperty(
+      'message',
+      'given provider id belongs to a user who is not a provider',
+    );
+  });
+
   it('should not be able to create 2 appointments in the same time', async () => {
     jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 1, 1, 12).getTime();

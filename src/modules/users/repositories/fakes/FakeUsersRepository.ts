@@ -14,10 +14,12 @@ class FakeUsersRepository implements IUsersRepository {
     let { users } = this;
 
     if (except_user_id) {
-      users = this.users.filter(user => user.id !== except_user_id);
+      users = this.users.filter(
+        user => user.id !== except_user_id && user.provider,
+      );
     }
 
-    return users;
+    return users.filter(user => user.provider);
   }
 
   async create(userData: IUserCreateDTO): Promise<User> {

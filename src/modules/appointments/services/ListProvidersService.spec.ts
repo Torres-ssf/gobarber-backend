@@ -84,6 +84,20 @@ describe('ListProvidersService', () => {
       name: 'Gustav',
       email: 'gustav@email.com',
       password: '123456',
+      provider: true,
+    });
+
+    const user3 = await fakeUsersRepository.create({
+      name: 'Peter',
+      email: 'peter@email.com',
+      password: '123456',
+      provider: true,
+    });
+
+    const user4 = await fakeUsersRepository.create({
+      name: 'Mark',
+      email: 'mark@email.com',
+      password: '123456',
       provider: false,
     });
 
@@ -91,6 +105,9 @@ describe('ListProvidersService', () => {
       user_id: loggedUser.id,
     });
 
-    expect(providers).toEqual([user1, user2]);
+    expect(providers).toContain(user2);
+    expect(providers).toContain(user3);
+    expect(providers).not.toContain(user1);
+    expect(providers).not.toContain(user4);
   });
 });

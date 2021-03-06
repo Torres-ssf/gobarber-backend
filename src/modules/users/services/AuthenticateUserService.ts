@@ -11,6 +11,7 @@ import IUserRepository from '../repositories/IUsersRepository';
 interface IRequest {
   email: string;
   password: string;
+  provider: boolean;
 }
 
 interface IResponse {
@@ -34,7 +35,7 @@ class AuthenticateUserService {
     this.hashProvider = hashProvider;
   }
 
-  async execute({ email, password }: IRequest): Promise<IResponse> {
+  async execute({ email, password, provider }: IRequest): Promise<IResponse> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
@@ -48,6 +49,12 @@ class AuthenticateUserService {
 
     if (!passwordMatch) {
       throw new AppError('Invalid email/password combination', 401);
+    }
+
+    if (provider && !user.provider) {
+      user.provider = true;
+
+      await this.userRepository.save(user);
     }
 
     const { secret, expiresIn } = authconfig.jwt;

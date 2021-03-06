@@ -31,6 +31,7 @@ describe('SendForgotPasswordEmailService', () => {
       name: 'David Paul',
       email: 'david00@email.com',
       password: '123456',
+      provider: false,
     });
 
     await sendForgotPasswordEmail.execute(user.email);
@@ -51,6 +52,7 @@ describe('SendForgotPasswordEmailService', () => {
       name: 'David Paul',
       email: 'david00@email.com',
       password: '123456',
+      provider: false,
     });
 
     await sendForgotPasswordEmail.execute(user.email);

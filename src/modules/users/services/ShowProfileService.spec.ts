@@ -18,6 +18,7 @@ describe('UpdateProfileService', () => {
       name: 'Paul',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     const user = await showProfileService.execute({ user_id: newUser.id });

@@ -23,6 +23,7 @@ describe('CreateUser', () => {
       name: 'Paul Test',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     expect(user.avatar).toBe(undefined);
@@ -51,6 +52,7 @@ describe('CreateUser', () => {
       name: 'Paul Test',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     await updateUserAvatarService.execute({

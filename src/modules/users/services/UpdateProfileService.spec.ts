@@ -24,6 +24,7 @@ describe('UpdateProfileService', () => {
       name: 'Paul',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     const updatedUser = await updateProfileService.execute({
@@ -52,12 +53,14 @@ describe('UpdateProfileService', () => {
       name: 'Taken',
       email: 'taken@email.com',
       password: '123456',
+      provider: false,
     });
 
     const { id } = await fakeUsersRepository.create({
       name: 'Paul',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     await expect(
@@ -74,6 +77,7 @@ describe('UpdateProfileService', () => {
       name: 'Paul',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     await updateProfileService.execute({
@@ -92,6 +96,7 @@ describe('UpdateProfileService', () => {
       name: 'Paul',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     await expect(
@@ -109,6 +114,7 @@ describe('UpdateProfileService', () => {
       name: 'Paul',
       email: 'paul@email.com',
       password: '123456',
+      provider: false,
     });
 
     await expect(

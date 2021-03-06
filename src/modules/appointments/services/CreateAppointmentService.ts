@@ -8,6 +8,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import INotificationRepository from '@modules/notifications/repositories/INotificationRepository';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import IUserRepository from '@modules/users/repositories/IUsersRepository';
 
 interface IRequest {
   provider_id: string;
@@ -19,6 +20,8 @@ interface IRequest {
 class CreateAppointmentService {
   private appointmentsRepository: IAppointmentsRepository;
 
+  private userRepository: IUserRepository;
+
   private notificationRepository: INotificationRepository;
 
   private cacheProvider: ICacheProvider;
@@ -26,12 +29,15 @@ class CreateAppointmentService {
   constructor(
     @inject('AppointmentsRepository')
     appointmentsRepository: IAppointmentsRepository,
+    @inject('UsersRepository')
+    userRepository: IUserRepository,
     @inject('NotificationRepository')
     notificationRepository: INotificationRepository,
     @inject('CacheProvider')
     cacheProvider: ICacheProvider,
   ) {
     this.appointmentsRepository = appointmentsRepository;
+    this.userRepository = userRepository;
     this.notificationRepository = notificationRepository;
     this.cacheProvider = cacheProvider;
   }
@@ -47,6 +53,17 @@ class CreateAppointmentService {
       throw new AppError("You can't create an appointment with yourself");
     }
 
+    const providerExists = await this.userRepository.findById(provider_id);
+
+    if (!providerExists) {
+      throw new AppError('no user found for the given provider id');
+    }
+
+    if (!providerExists.provider) {
+      throw new AppError(
+        'given provider id belongs to a user who is not a provider',
+      );
+    }
     if (isBefore(appointmentDate, Date.now())) {
       throw new AppError("Can't create an appointment on a past date");
     }

@@ -30,6 +30,7 @@ describe('CreateUser', () => {
       name: 'John',
       email: 'john@mail.com',
       password: '123456',
+      provider: false,
     });
 
     expect(user).toBeTruthy();
@@ -42,6 +43,7 @@ describe('CreateUser', () => {
       name: 'John',
       email: 'john@mail.com',
       password: '123456',
+      provider: false,
     });
 
     await expect(
@@ -49,6 +51,7 @@ describe('CreateUser', () => {
         name: 'John Paul',
         email: 'john@mail.com',
         password: '654321',
+        provider: false,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

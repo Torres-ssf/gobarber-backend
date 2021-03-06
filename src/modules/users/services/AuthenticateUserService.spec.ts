@@ -38,9 +38,13 @@ describe('AuthenticateUser', () => {
       provider: false,
     });
 
-    const { email, password } = user;
+    const { email, password, provider } = user;
 
-    const res = await authenticateUserService.execute({ email, password });
+    const res = await authenticateUserService.execute({
+      email,
+      password,
+      provider,
+    });
 
     expect(res).toHaveProperty('token');
   });
@@ -50,8 +54,47 @@ describe('AuthenticateUser', () => {
       authenticateUserService.execute({
         email: 'john@mail.com',
         password: '123456',
+        provider: false,
       }),
     ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should update user to be a provider if provider value is true and user is not a provider yet', async () => {
+    const user = await createUserService.execute({
+      name: 'John',
+      email: 'john@mail.com',
+      password: '123456',
+      provider: false,
+    });
+
+    const { email, password } = user;
+
+    await expect(
+      authenticateUserService.execute({
+        email,
+        password,
+        provider: true,
+      }),
+    ).resolves.toHaveProperty(['user', 'provider'], true);
+  });
+
+  it('should not update user to be a provider if provider value is true and user is not a provider yet', async () => {
+    const user = await createUserService.execute({
+      name: 'John',
+      email: 'john@mail.com',
+      password: '123456',
+      provider: false,
+    });
+
+    const { email, password } = user;
+
+    await expect(
+      authenticateUserService.execute({
+        email,
+        password,
+        provider: false,
+      }),
+    ).resolves.toHaveProperty(['user', 'provider'], false);
   });
 
   it('should not be able to authenticate with wrong password', async () => {
@@ -68,6 +111,7 @@ describe('AuthenticateUser', () => {
       authenticateUserService.execute({
         email,
         password: 'wrong-password',
+        provider: false,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

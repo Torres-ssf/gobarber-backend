@@ -52,7 +52,9 @@ class CreateUserService {
       provider,
     });
 
-    await this.cacheProvider.invalidatePrefix('providers-list');
+    if (provider) {
+      await this.cacheProvider.invalidatePrefix('providers-list');
+    }
 
     return user;
   }

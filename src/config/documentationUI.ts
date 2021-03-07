@@ -42,7 +42,7 @@ const apiConfig = {
         tags: ['Sessions'],
         summary: 'Create a new session into the system.',
         description:
-          'Creates a new session into the system. This request is used for User authentication. When a correct combination of email and password is provided, the request returns all relevant user information for the client-side and a token that grants access to authenticated users',
+          "Creates a new session into the system. This request is used for User authentication. When a correct combination of email and password is provided, the request returns all relevant user information for the client-side and a token that grants access to authenticated users. The provider property is optional, since it's value is false by default",
         requestBody: {
           required: true,
           content: {
@@ -67,7 +67,8 @@ const apiConfig = {
       post: {
         tags: ['Users'],
         summary: 'Creates a new User',
-        description: 'Register request. Creates a new User into the server.',
+        description:
+          "Register request. Creates a new User into the server. The request body is required. The provider property is optional, since it's value is false by default",
         requestBody: {
           required: true,
           content: {
@@ -79,6 +80,7 @@ const apiConfig = {
                 name: 'Paul Smith',
                 email: 'paul_smith@email.com',
                 password: '123456',
+                provider: false,
               },
             },
           },
@@ -451,6 +453,9 @@ const apiConfig = {
           avatar: {
             type: 'string',
           },
+          provider: {
+            type: 'boolean',
+          },
           created_at: {
             type: 'string',
             format: 'date-time',
@@ -559,6 +564,7 @@ const apiConfig = {
               name: 'Paul Smith',
               email: 'paul_smith@email.com',
               avatar: '94208754a8f9cf345ba0-profile.jpeg',
+              provider: false,
               created_at: '2020-08-27T19:15:52.696Z',
               updated_at: '2020-08-27T19:15:52.696Z',
               avatar_url:
@@ -580,6 +586,7 @@ const apiConfig = {
                 name: 'Paul Smith',
                 email: 'paul_smith@email.com',
                 avatar: '94208754a8f9cf345ba0-profile.jpeg',
+                provider: false,
                 created_at: '2020-08-27T19:15:52.696Z',
                 updated_at: '2020-08-27T19:15:52.696Z',
                 avatar_url:
@@ -1082,6 +1089,9 @@ const apiConfig = {
         avatar: {
           type: 'string',
         },
+        provider: {
+          type: 'boolean',
+        },
         created_at: {
           type: 'string',
           format: 'date-time',
@@ -1110,6 +1120,9 @@ const apiConfig = {
           type: 'string',
           format: 'password',
           minLength: 6,
+        },
+        provider: {
+          type: 'boolean',
         },
       },
     },
@@ -1155,6 +1168,10 @@ const apiConfig = {
           format: 'password',
           minLength: 6,
           example: '123456',
+        },
+        provider: {
+          type: 'boolean',
+          example: false,
         },
       },
     },

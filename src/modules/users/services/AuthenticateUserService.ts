@@ -6,6 +6,7 @@ import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
 
 import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import IUserRepository from '../repositories/IUsersRepository';
 
 interface IRequest {
@@ -25,14 +26,19 @@ class AuthenticateUserService {
 
   private hashProvider: IHashProvider;
 
+  private cacheProvider: ICacheProvider;
+
   constructor(
     @inject('UsersRepository')
     userRepository: IUserRepository,
     @inject('HashProvider')
     hashProvider: IHashProvider,
+    @inject('CacheProvider')
+    cacheProvider: ICacheProvider,
   ) {
     this.userRepository = userRepository;
     this.hashProvider = hashProvider;
+    this.cacheProvider = cacheProvider;
   }
 
   async execute({ email, password, provider }: IRequest): Promise<IResponse> {
@@ -55,6 +61,8 @@ class AuthenticateUserService {
       user.provider = true;
 
       await this.userRepository.save(user);
+
+      await this.cacheProvider.invalidatePrefix('providers-list');
     }
 
     const { secret, expiresIn } = authconfig.jwt;

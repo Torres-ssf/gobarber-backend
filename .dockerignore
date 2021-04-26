@@ -1,2 +1,8 @@
 node_modules
-coverage
+ormconfig.json
+.vscode
+tmp/*
+!tmp/.gitkeep
+tmp/avatar/*
+!tmp/avatar/
+!tmp/avatar/.gitkeep

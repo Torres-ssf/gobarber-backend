@@ -1169,10 +1169,6 @@ const apiConfig = {
           minLength: 6,
           example: '123456',
         },
-        provider: {
-          type: 'boolean',
-          example: false,
-        },
       },
     },
     userSuccessfulAuthenticationSchema: {

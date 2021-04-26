@@ -27,6 +27,7 @@ describe('AuthenticateUser', () => {
     authenticateUserService = new AuthenticateUserService(
       fakeUserRepository,
       fakeHashProvider,
+      fakeCacheProvider,
     );
   });
 

@@ -25,31 +25,23 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## About The Project
+### About The Project
 
-Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules. The application is deployed on Heroku and can be tested through the [Interactive API documentation](https://gobarber-api-torres.herokuapp.com/documentation/).
+Sever-side application for GoBarber, an application for service providers, such as barbers, to control customer schedules. Postgres was used for the database along with Redis for caching data.
 
-## API Documentation
+The implemented features are:
 
-Click [here](https://gobarber-api-torres.herokuapp.com/documentation/) to explore the interactive API documentation. The documentation was created with [swagger UI](https://swagger.io/). You can test all API requests. Many requests require user authentication and, as this application uses the JWT to grant authorization to users, you will need to create a session before using authenticated requests. To do so, you can simply:
+- Users can create new account either as a provider (barber) or as simple user.
+- Users can create a new session using their credentials.
+- Users can create/update their avatar image.
+- Users can create appointments with their desired provider.
+- Users can request for a password reset email.
+- Users can update their info.
+- Providers can see their daily schedule and monthly schedule.
+- The monthly availability of a provider can be fetched.
+- The daily availability of a provider can be fetched.
+- A list of all providers can be fetched.
 
-1. Click on the post `users` request to expand it.
-
-2. Click on the `Try it out` button.
-
-3. Insert your credentials to create a new user and then click on the `Execute` button.
-
-4. You should receive an 200 response and that means that your user was successfully created.
-
-5. Now click in the post `sessions` request to exapand it.
-
-6. Click on the `Try it out` button and then provide the user/email combination from the user you just created
-
-7. You should receive a successful response with the authorization token.
-
-8. Now copy the token value and click on the `Authorize` button that lives almost at the top of the page. Paste the value and click on `Authorize` again.
-
-9. Now you are authenticated and can test all requests from the API.
 
 ### Built With
 
@@ -91,9 +83,11 @@ Testing Frameworks
 
 <!-- GETTING STARTED -->
 
-## Getting Started
+### Getting Started
 
-This application is dockerized, if have `docker` and `docker-compose` on you system it's pretty straightforward to start using it. To get a local copy up and running follow these simple example steps.
+This application is dockerized, if have `docker` and `docker-compose` on you system it's pretty straightforward to start using it.
+
+To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
@@ -101,8 +95,6 @@ This application is dockerized, if have `docker` and `docker-compose` on you sys
 - NPM
 - Yarn
 - Docker
-- PostgreSQL (not needed if you have docker)
-- Redis (not needed if you have docker)
 
 ### Installation
 
@@ -124,29 +116,85 @@ cd gobarber-backend/
 yarn
 ```
 
-4. Run the app
+4. Make a copy of the `ormconfig.example.json` file and rename it to `ormconfig.json`.
+<br>
+5. Make a copy of the `.env.example` file and rename it to `.env`.
 
-  This project uses a docker file to run the app, a Postgres contaner and a Redis container in a shared network. By running `docker-compose up` no additional configuration is required. I recommend using [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/) for simplicity. However, if you want to run without Docker, you will need both Postgres and Redis running at your system. Additional steps are also required.
-  - Make a copy of both `.env.example` and `ormconfig.example.json` files.
-  - Rename `.env.example` copy to `.env`.
-  - Rename `ormconfig.example.json` copy to `ormconfig.json`
-  - Edit `ormconfig.json` file with your own postgres credentials, remember to also assign an existent database.
-  - Redis host and port can be set up at the `.env` file. No password is required.
-  - Run the migrations with the command: `yarn typeorm migration:run`.
+#### Using Docker
 
-### Usage
+This application uses Docker and Docker Compose and can be quickly initiate by simply running `docker-compose up`. To make this work you will need to have Docker and Docker Compose installed on your system. Docker will setup the database container, create the app database, setup the app container, and will start the app. The steps are:
 
-If you have `docker` and `docker-compose` at your system:
-
+1. Run docker compose.
 ```
 docker-compose up
 ```
 
-To remove docker containers after using the app, run:
+After docker compose finishing initiate the application, you will see the log `App launched at 3333 🚀`. Before using the application, it's necessary to run the migrations first.
 
+2. To run the migrations inside the docker container, we can simply use the following script:
 ```
-docker-compose down
+yarn typeorm:docker migration:run
 ```
+Now the application is ready to be used.
+
+#### Without Docker
+
+Setting up the application without Docker requires more steps.
+
+1. We need to edit the properties `user`, `password`, `port`, and `database` at the `ormconfig.json`. The values that you are going to use depend on how postgreSQL is setup on your system. After setting up `user`, `password`, and `port` we need to give the name of an existent database to the `database` property.
+<br>
+2. To setup Redis you will need to edit 3 environment variable at the `.env` file: `REDIS_PORT`, `REDIS_HOST`, and `REDIS_PASSWORD`. Assign these values according on how redis is configured on your system.
+<br>
+3. Now with the database properly setup, we can run the migrations:
+```
+yarn typeorm migration:run
+```
+
+4. And finally, we can start the app:
+```
+yarn dev:server
+```
+
+If everything was done properly, a log message will appear at the terminal: `Server started on port 3333!`
+
+### Usage
+
+It is possible to explore all API endpoints using an interactive documentation created with Swagger UI. After the application is running you can open the browser at `http://localhost:3333/documentation` and start using it.
+
+To be able to tests login required endpoint at the Swagger Documentation, you will need first to use a jwt token to gain authorization. The steps are the following:
+
+1. At the documentation page, we will use the session endpoint to generate an jwt token. Click at `Try it out`
+
+<p align="center">
+  <img src="./src/shared/assets/doc1.png">
+</p>
+
+2. Give the admin credentials and click on the execute button:
+
+<p align="center">
+  <img src="./src/shared/assets/doc2.png">
+</p>
+
+3. Copy the generated token from the response object:
+
+<p align="center">
+  <img src="./src/shared/assets/doc3.png">
+</p>
+
+4. Click on the `Authorize` button at the top of the page:
+
+<p align="center">
+  <img src="./src/shared/assets/doc4.png">
+</p>
+
+5. Insert the token in the value input and then click on `Authorize`:
+
+<p align="center">
+  <img src="./src/shared/assets/doc5.png">
+</p>
+
+
+6. Now all endpoints can be used within the documentation.
 
 ##### App Scripts:
 
@@ -161,11 +209,18 @@ yarn typeorm
 Used for operations related to Typeorm, like creating migrations.
 
 ```
+yarn typeorm:docker
+```
+Run typeorm cli inside Docker container.
+
+```
 yarn build
 ```
 Transpile Typescript code into Javascript inside the dist directory.
 
 ### Run tests
+
+This application has tests. To run the tests we can simply run the following script.
 
 ```
 yarn test
